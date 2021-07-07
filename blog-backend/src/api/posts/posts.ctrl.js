@@ -9,6 +9,10 @@ const sanitizeOption = {
   allowedTags: [
     'h1',
     'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
     'b',
     'i',
     'u',
@@ -23,7 +27,7 @@ const sanitizeOption = {
   ],
   allowedAttributes: {
     a: ['href', 'name', 'target'],
-    img: ['src'],
+    img: ['src', 'style', 'width', 'align'],
     li: ['class'],
   },
   allowedSchemes: ['data', 'http'],

@@ -36,11 +36,17 @@ app.use(jwtMiddleware);
 // app 인스턴스에 라우터 적용
 app.use(router.routes()).use(router.allowedMethods());
 
+// 정적 파일 제공
 const buildDirectory = path.resolve(__dirname, '../../blog-frontend/build');
 app.use(serve(buildDirectory));
+app.use(serve(__dirname + '/public'));
 app.use(async (ctx) => {
-  // Not Found이고, 주소가 /api로 시작하지 않는 경우
-  if (ctx.status === 404 && ctx.path.indexOf('/api') !== 0) {
+  // Not Found이고, 주소가 /api 혹은 /images로 시작하지 않는 경우
+  if (
+    ctx.status === 404 &&
+    ctx.path.indexOf('/api') !== 0 &&
+    ctx.path.indexOf('/images') !== 0
+  ) {
     // index.html 내용을 반환
     await send(ctx, 'index.html', { root: buildDirectory });
   }
