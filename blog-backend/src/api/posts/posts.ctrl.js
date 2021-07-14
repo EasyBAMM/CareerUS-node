@@ -46,6 +46,20 @@ export const getPostById = async (ctx, next) => {
       ctx.status = 404; // Not Found
       return;
     }
+    // 조회수 +1
+    // 쿠키 "post._id": "ip"
+    const checkViews = ctx.cookies.get(String(post._id));
+    if (!checkViews) {
+      const addr =
+        ctx.headers['x-forwarded-for'] || ctx.connection.remoteAddress;
+      ctx.cookies.set(post._id, addr, {
+        maxAge: 1000 * 60 * 10 * 1, // 10 분
+        httpOnly: true,
+      });
+      post.views++; // 조회수 +1
+      await post.save();
+    }
+
     ctx.state.post = post;
     return next();
   } catch (e) {

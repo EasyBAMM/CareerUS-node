@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
 // 파일 업로드 제한
 const limits = {
   fields: 10, //Number of non-file fields
-  fileSize: 500 * 1024, //File Size Unit b
+  fileSize: 1024 * 1024 * 3, //File Size 1MB로 제한
   files: 1, //Number of documents
 };
 //파일을 저장할 디렉토리 설정 (현재 위치에 uploads라는 폴더가 생성되고 하위에 파일이 생성된다.)
@@ -26,8 +26,8 @@ export const singleUpload = async (ctx, next) => {
   try {
     await upload.single('image')(ctx, next);
     const { filename } = ctx.file;
-    console.log(ctx.file);
-    const url = 'images/' + filename;
+    // console.log(ctx.file);
+    const url = '/images/' + filename;
     ctx.body = { ok: true, url: url };
   } catch (e) {
     ctx.throw(500, e);
