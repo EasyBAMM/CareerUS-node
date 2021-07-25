@@ -100,6 +100,14 @@ export const write = async (ctx) => {
   }
 
   const { title, body, tags } = ctx.request.body;
+  // const { _id, username, name } = ctx.state.user;
+  // const post = new Post({
+  //   title,
+  //   body: sanitizeHtml(body, sanitizeOption),
+  //   tags,
+  //   username: username,
+  //   _id: _id,
+  // });
   const post = new Post({
     title,
     body: sanitizeHtml(body, sanitizeOption),
@@ -127,9 +135,12 @@ const removeHtmlAndShorten = (body) => {
 
 export const list = async (ctx) => {
   // query 는 문자열이기 때문에 숫자로 변환해주어야합니다.
-  // 값이 주어지지 않았다면 1 을 기본으로 사용합니다.
+  // 값이 주어지지 않았다면 1, 10 을 기본으로 사용합니다.
+  console.log('게시판 목록 참조');
+  console.log(ctx.query);
   const page = parseInt(ctx.query.page || '1', 10);
-
+  const limit = parseInt(ctx.query.limit || '15', 10);
+  const skip = (page - 1) * limit; // 무시할 게시물의 수
   if (page < 1) {
     ctx.status = 400;
     return;
@@ -145,16 +156,24 @@ export const list = async (ctx) => {
   try {
     const posts = await Post.find(query)
       .sort({ _id: -1 })
-      .limit(10)
-      .skip((page - 1) * 10)
+      .limit(limit)
+      .skip(skip)
       .lean()
       .exec();
-    const postCount = await Post.countDocuments(query).exec();
-    ctx.set('Last-Page', Math.ceil(postCount / 10));
-    ctx.body = posts.map((post) => ({
-      ...post,
-      body: removeHtmlAndShorten(post.body),
-    }));
+
+    const postCount = await Post.countDocuments(query).exec(); // 전체 게시물 수
+    // 게시글, 현재 페이지, 한 번에 보여지는 수, 전체 게시글 수
+    ctx.body = {
+      posts: posts,
+      currentPage: page,
+      limit: limit,
+      count: postCount,
+    };
+    // ctx.set('Last-Page', Math.ceil(Math.ceil(postCount / limit));
+    // ctx.body = posts.map((post) => ({
+    //   ...post,
+    //   body: removeHtmlAndShorten(post.body),
+    // }));
   } catch (e) {
     ctx.throw(500, e);
   }
