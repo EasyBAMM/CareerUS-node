@@ -1,0 +1,30 @@
+.write-container {
+    padding: 40px 10px 0px;
+    .write-content {
+        width: 1024px;
+        margin: 0 auto;
+        
+        .write-title {
+            font-size: 48px;
+            outline: none;
+            padding-bottom: 8px;
+            border: none;
+            border-bottom: 1px solid rgba(128, 128, 128, 0.671);
+            margin-bottom: 24px;
+            width: 100%;
+        }
+        .write-wrapper {
+            overflow: hidden;
+            .ql-editor {
+                overflow: auto;
+                padding: 0;
+                height: 480px;
+                font-size: 18px;
+                line-height: 1.5;
+            }
+            .ql-editor.ql-blank::before {
+                left: 0px;
+            }
+        }
+    }
+}
