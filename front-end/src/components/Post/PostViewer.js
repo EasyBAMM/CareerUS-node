@@ -33,7 +33,7 @@ const PostViewer = ({ post, error, loading, actionButtons }) => {
             <span>
               <Link to={`/profile/${user.username}`}>{user.username}</Link>
             </span>
-            <span>{new Date(publishedDate).toLocaleDateString()}</span>
+            <span>{new Date(publishedDate).toLocaleString()}</span>
           </div>
           <div className={cx("post-subinfo-r")}>
             <span>조회 {views}</span>
