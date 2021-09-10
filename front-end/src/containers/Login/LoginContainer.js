@@ -52,7 +52,12 @@ const LoginContainer = ({ history }) => {
     if (authLoginError) {
       console.log("오류 발생");
       console.log(authLoginError.response);
-      setError(authLoginError.response.data.message);
+      if (authLoginError.response.data.message) {
+        setError(authLoginError.response.data.message);
+        return;
+      }
+      // 기타 이유
+      setError("로그인 실패");
       return;
     }
     if (authLogin) {
