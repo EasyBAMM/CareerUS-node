@@ -2,11 +2,11 @@ import React from "react";
 import styles from "./Header.scss";
 import classNames from "classnames/bind";
 import { Link } from "react-router-dom";
-import { FiFileText, FiLogOut } from "react-icons/fi";
+import { FiFileText, FiLogOut, FiMenu } from "react-icons/fi";
 
 const cx = classNames.bind(styles);
 
-const Header = ({ user, onLogout }) => {
+const Header = ({ user, onLogout, onActive, active }) => {
   return (
     <div className={cx("header-container")}>
       <header>
@@ -14,7 +14,7 @@ const Header = ({ user, onLogout }) => {
           <Link to="/main">CareerUS</Link>
         </h1>
         <h2 className="hide">대메뉴</h2>
-        <nav className={cx("lnb")}>
+        <nav className={cx("lnb", { active })}>
           <ul>
             <li>
               <Link to="/board/lists">
@@ -34,7 +34,7 @@ const Header = ({ user, onLogout }) => {
           </ul>
         </nav>
         <h2 className="hide">유저정보</h2>
-        <nav className={cx("rnb")}>
+        <nav className={cx("rnb", { active })}>
           <ul>
             <li>
               <Link to="#">
@@ -50,6 +50,12 @@ const Header = ({ user, onLogout }) => {
             </li>
           </ul>
         </nav>
+        <div className="mobile-slide">
+          <h4 className="hide">모바일토글바</h4>
+          <span className={cx("slide-btn", { active })} onClick={onActive}>
+            <FiMenu />
+          </span>
+        </div>
       </header>
     </div>
   );

@@ -1,36 +1,39 @@
 .post-container {
-    padding: 40px 10px 0px;
+  padding: 40px 15px 0px;
+  width: 100%;
 
-    .post-content {
-        width: 1024px;
-        margin: 0 auto;
+  .post-content {
+    max-width: 1024px;
+    margin: 0 auto;
 
-        .post-head {
-            height: 37px;
-            margin-bottom: 10px;
-            a { color: #2d5b79}
-        }
-        .post-body {
-            border-top: 2px solid #2d5b79;
-            
-            .post-tags {
-                border: 1px solid #d5d5d5;
-                padding: 6px 8px;
-                background: #F3F3F3;
-                height: 40px;
-                .post-tag {
-                    display: inline-block;
-                    color: #2d5b79;
-                    font-size: 12px;
-                    line-height: 24px;
-                    text-decoration: none;
-                    margin-right: 8px;
-                    cursor: pointer;
-                    &:hover {
-                        opacity: 0.5;
-                    }
-                }
-            }
-        }
+    .post-head {
+      height: 37px;
+      margin-bottom: 10px;
+      a {
+        color: #2d5b79;
+      }
     }
+    .post-body {
+      border-top: 2px solid #2d5b79;
+
+      .post-tags {
+        border: 1px solid #d5d5d5;
+        padding: 6px 8px;
+        background: #f3f3f3;
+        height: 40px;
+        .post-tag {
+          display: inline-block;
+          color: #2d5b79;
+          font-size: 12px;
+          line-height: 24px;
+          text-decoration: none;
+          margin-right: 8px;
+          cursor: pointer;
+          &:hover {
+            opacity: 0.5;
+          }
+        }
+      }
+    }
+  }
 }

@@ -1,37 +1,33 @@
 .writeactionbuttons-container {
-    margin-top: 24px;
-    padding-bottom: 50px;
-    .writeactionbuttons-content {
-        width: 1024px;
-        margin: 0 auto;
+  padding: 24px 15px 50px;
+  .writeactionbuttons-content {
+    max-width: 1024px;
+    margin: 0 auto;
 
-        button + button {
-            margin-left: 8px;
-        }
-        
-        button {
-            border-radius: 2px;
-            height: 34px;
-            outline: none;
-            border: none;
-            font-size: 12px;
-            cursor: pointer;
-            padding: 0 14px;
-            background: #313131;
-            color: white;
-            font-weight: bold;
-            &:hover { 
-                opacity: 0.8;
-            }
-        }
-        .writeactionbutton-publish {
-            background: #3BC9DB;
-        }
-        .writeactionbutton-cancel {
-            background: #313131;
-        }
+    button + button {
+      margin-left: 8px;
     }
-    
-    
 
+    button {
+      border-radius: 2px;
+      height: 34px;
+      outline: none;
+      border: none;
+      font-size: 12px;
+      cursor: pointer;
+      padding: 0 14px;
+      background: #313131;
+      color: white;
+      font-weight: bold;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+    .writeactionbutton-publish {
+      background: #3bc9db;
+    }
+    .writeactionbutton-cancel {
+      background: #313131;
+    }
+  }
 }

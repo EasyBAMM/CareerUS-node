@@ -1,57 +1,57 @@
 .tagbox-container {
-    padding: 32px 10px 0px;
-    .tagbox-content {   
-        width: 1024px;
-        margin: 0 auto;
-        border-top: 1px solid #CCCCCC;
-        padding-top: 32px;
-        h4 {
-            color: #313131;
-            margin-top: 0;
-            margin-bottom: 8px;
-        }
-    
-        .tagbox-form {
-            border-radius: 2px;
-            overflow: hidden;
-            display: flex;
-            width: 256px;
-            border: 1px solid #757575;
-            height: 34px;
-            input, button {
-                outline: none;
-                border: none;
-                font-size: 12px;
-            }
-            input {
-                padding: 8px;
-                flex: 1;
-                min-width: 0;
-            }
-            button {
-                cursor: pointer;
-                padding: 0 10px;
-                border: none;
-                background: #313131;
-                color: white;
-                font-weight: bold;
-                &:hover {
-                    background: #8a8989;
-                }
-            }
-        }
-        .tagbox-list {
-            display: flex;
-            margin-top: 8px;
-        }
-        .tag {
-            margin-right: 8px;
-            color: #8b8b8b;
-            cursor: pointer;
-            &:hover {
-                opacity: 0.5;
-            }
-        }
+  padding: 32px 15px 0px;
+  .tagbox-content {
+    max-width: 1024px;
+    margin: 0 auto;
+    border-top: 1px solid #cccccc;
+    padding-top: 32px;
+    h4 {
+      color: #313131;
+      margin-top: 0;
+      margin-bottom: 8px;
     }
-    
+
+    .tagbox-form {
+      border-radius: 2px;
+      overflow: hidden;
+      display: flex;
+      width: 256px;
+      border: 1px solid #757575;
+      height: 34px;
+      input,
+      button {
+        outline: none;
+        border: none;
+        font-size: 12px;
+      }
+      input {
+        padding: 8px;
+        flex: 1;
+        min-width: 0;
+      }
+      button {
+        cursor: pointer;
+        padding: 0 10px;
+        border: none;
+        background: #313131;
+        color: white;
+        font-weight: bold;
+        &:hover {
+          background: #8a8989;
+        }
+      }
+    }
+    .tagbox-list {
+      display: flex;
+      margin-top: 8px;
+    }
+    .tag {
+      margin-right: 8px;
+      color: #8b8b8b;
+      cursor: pointer;
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+  }
 }

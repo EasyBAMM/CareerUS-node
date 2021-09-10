@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import styles from "./Write.scss";
 import classNames from "classnames/bind";
 import Quill from "quill";
@@ -85,9 +85,16 @@ const Write = ({ title, body, onChangeField }) => {
     quillInstance.current.root.innerHTML = body;
   }, [body]);
 
-  const onChangeTitle = (e) => {
-    onChangeField({ key: "title", value: e.target.value });
-  };
+  const onChangeTitle = useCallback(
+    (e) => {
+      if (e.target.value.length > 50) {
+        alert("제목을 100byte(한글 50자) 이내로 입력하세요.");
+        e.target.value = e.target.value.substr(0, 50);
+      }
+      onChangeField({ key: "title", value: e.target.value });
+    },
+    [onChangeField]
+  );
 
   return (
     <div className={cx("write-container")}>
