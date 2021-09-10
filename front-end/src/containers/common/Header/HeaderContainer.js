@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Header from "../../../components/common/Header/Header";
@@ -10,7 +11,19 @@ const HeaderContainer = ({ history }) => {
     dispatch(logout());
   };
 
-  return <Header user={user} onLogout={onLogout} />;
+  const [active, setActive] = useState(false);
+  const onActive = () => {
+    setActive(!active);
+  };
+
+  return (
+    <Header
+      user={user}
+      onLogout={onLogout}
+      onActive={onActive}
+      active={active}
+    />
+  );
 };
 
 export default withRouter(HeaderContainer);
