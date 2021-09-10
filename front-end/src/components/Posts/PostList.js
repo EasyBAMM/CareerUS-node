@@ -25,8 +25,17 @@ const PostItem = ({ post }) => {
       <td>{seq}</td>
       <td>
         <Link to={`/board/view/?username=${user.username}&postId=${_id}`}>
-          {title}
+          <div className={cx("post-title-string")}>{title}</div>
         </Link>
+        <div className={cx("post-mobile-content")}>
+          <span>{user.username}</span>
+          <span>|</span>
+          <span>{datePrint(publishedDate)}</span>
+          <span>|</span>
+          <span>조회 {views}</span>
+          <span>|</span>
+          <span>댓글 3</span>
+        </div>
       </td>
       <td>
         <Link to={`/board/lists/?username=${user.username}`}>{user.name}</Link>
