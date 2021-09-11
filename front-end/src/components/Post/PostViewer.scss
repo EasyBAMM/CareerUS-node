@@ -28,7 +28,22 @@
       transform: translateY(-50%);
     }
   }
+
+  @media screen and (max-width: 768px) {
+    .post-subinfo {
+      font-size: 12px;
+    }
+  }
 }
 .post-aritcle {
+  min-height: 380px;
   overflow: auto;
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  @media screen and (max-width: 768px) {
+    min-height: 240px;
+  }
 }
