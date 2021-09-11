@@ -37,7 +37,7 @@ app.use(jwtMiddleware);
 app.use(router.routes()).use(router.allowedMethods());
 
 // 정적 파일 제공
-const buildDirectory = path.resolve(__dirname, '../../blog-frontend/build');
+const buildDirectory = path.resolve(__dirname, '../../front-end/build');
 app.use(serve(buildDirectory));
 app.use(serve(__dirname + '/public'));
 app.use(async (ctx) => {
