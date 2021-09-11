@@ -1,12 +1,18 @@
 .paging-container {
-  margin: 32px 0;
+  margin: 32px 0 0;
+  padding: 0 15px;
   width: 100%;
 
   .paging-content {
     max-width: 1024px;
     margin: 0 auto;
     padding: 16px 0;
+    background-color: #f9f9f9;
     text-align: center;
+  }
+
+  .paging-wrapper {
+    min-height: 30px;
   }
 
   .pagination {

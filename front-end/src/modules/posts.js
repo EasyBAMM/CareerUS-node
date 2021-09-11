@@ -11,7 +11,14 @@ const UNLOAD_LIST_POSTS = "posts/UNLOAD_LIST_POSTS"; // 리스트 페이지에�
 
 export const listPosts = createAction(
   LIST_POSTS,
-  ({ tag, username, page, limit }) => ({ tag, username, page, limit })
+  ({ tag, username, search, keyword, page, limit }) => ({
+    tag,
+    username,
+    search,
+    keyword,
+    page,
+    limit,
+  })
 );
 export const unloadListPosts = createAction(UNLOAD_LIST_POSTS);
 

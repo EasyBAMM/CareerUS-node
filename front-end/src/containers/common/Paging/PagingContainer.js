@@ -15,13 +15,22 @@ const PagingContainer = ({ history, location }) => {
   const setPage = useCallback(
     (page) => {
       const {
-        username,
         tag,
+        username,
+        search,
+        keyword,
         limit = 15,
       } = qs.parse(location.search, {
         ignoreQueryPrefix: true,
       });
-      const query = qs.stringify({ username, tag, page, limit });
+      const query = qs.stringify({
+        tag,
+        username,
+        search,
+        keyword,
+        page,
+        limit,
+      });
       history.push(location.pathname + `?${query}`);
     },
     [history, location.pathname, location.search]

@@ -4,6 +4,7 @@ import HeaderContainer from "../containers/common/Header/HeaderContainer";
 import FooterContainer from "../containers/common/Footer/FooterContainer";
 import PostListContainer from "../containers/Posts/PostListContainer";
 import PagingContainer from "../containers/common/Paging/PagingContainer";
+import SearchBarContainer from "../containers/common/SearchBar/SearchBarContainer";
 
 const PostListPage = () => {
   return (
@@ -11,6 +12,7 @@ const PostListPage = () => {
       <HeaderContainer />
       <PostListContainer />
       <PagingContainer />
+      <SearchBarContainer />
       <FooterContainer />
     </PageTemplate>
   );

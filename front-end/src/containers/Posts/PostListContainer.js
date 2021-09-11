@@ -6,7 +6,7 @@ import PostList from "../../components/Posts/PostList";
 import { listPosts, unloadListPosts } from "../../modules/posts";
 
 const PostListContainer = ({ history, location }) => {
-  const [limit, setLimit] = useState(5);
+  const [limit, setLimit] = useState(15);
   const dispatch = useDispatch();
   const { posts, error, loading, user } = useSelector(
     ({ posts, loading, user }) => ({
@@ -20,12 +20,14 @@ const PostListContainer = ({ history, location }) => {
   // select 버튼 클릭 시, 기존 url + page는 1로 초기화 + limit 추가
   const onChangeSelect = useCallback(
     (e) => {
-      const { username, tag } = qs.parse(location.search, {
+      const { tag, username, search, keyword } = qs.parse(location.search, {
         ignoreQueryPrefix: true,
       });
       const query = qs.stringify({
-        username,
         tag,
+        username,
+        search,
+        keyword,
         page: 1,
         limit: e.target.value,
       });
@@ -38,15 +40,18 @@ const PostListContainer = ({ history, location }) => {
   // 포스트 목록 표시
   useEffect(() => {
     const {
-      username,
       tag,
+      username,
+      search,
+      keyword,
       page = 1,
       limit = 15,
     } = qs.parse(location.search, {
       ignoreQueryPrefix: true,
     });
     setLimit(limit); // limit 유지 및 초기화
-    dispatch(listPosts({ tag, username, page, limit }));
+    dispatch(listPosts({ tag, username, search, keyword, page, limit }));
+    document.getElementById("root").scrollTo(0, 0); // 페이지 이동 후 스크롤 탑
     // 언마운트될 때 리덕스에서 리스트 데이터 없애기
     return () => {
       dispatch(unloadListPosts());
