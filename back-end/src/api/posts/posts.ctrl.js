@@ -58,6 +58,7 @@ const sanitizeOption = {
   allowedSchemes: ['data', 'http'],
 };
 
+// 특정 포스트(id) - read, delete, update 미들웨어
 export const getPostById = async (ctx, next) => {
   const { id } = ctx.params;
   if (!ObjectId.isValid(id)) {
@@ -150,7 +151,7 @@ export const write = async (ctx) => {
 /* 포스트 목록 조회
 GET /api/posts?username=&tag=&page=
 */
-// html을 없애고 내용이 너무 길면 200자로 제한하는 함수
+// fucntion: html을 없애고 내용이 너무 길면 200자로 제한하는 함수
 const removeHtmlAndShorten = (body) => {
   const filtered = sanitizeHtml(body, {
     allowedTags: [],
@@ -158,9 +159,53 @@ const removeHtmlAndShorten = (body) => {
   return filtered.length < 200 ? filtered : `${filtered.slice(0, 200)}...`;
 };
 
+// function: 포스트 목록 검색
+const createSearchQuery = (queries) => {
+  // tag, username, search, keyword로 검색
+  const { tag, username, search, keyword } = queries;
+  // tag, username 값이 유효하면 객체 안에 넣고, 그렇지 않으면 넣지 않음
+  const searchQuery = {
+    ...(username ? { 'user.username': username } : {}),
+    ...(tag ? { tags: tag } : {}),
+  };
+  // 검색조건, 검색명으로 쿼리문 조건 설정
+  if (search && keyword && keyword.length >= 2) {
+    const postQueries = [];
+    if (search === 'all') {
+      // 전체
+      postQueries.push({ title: { $regex: new RegExp(keyword, 'i') } });
+      postQueries.push({ body: { $regex: new RegExp(keyword, 'i') } });
+      postQueries.push({
+        'user.name': { $regex: new RegExp(keyword, 'i') },
+      });
+    }
+    if (search === 'title') {
+      // 제목
+      postQueries.push({ title: { $regex: new RegExp(keyword, 'i') } });
+    }
+    if (search === 'body') {
+      // 내용
+      postQueries.push({ body: { $regex: new RegExp(keyword, 'i') } });
+    }
+    if (search === 'name') {
+      // 작성자
+      postQueries.push({
+        'user.name': { $regex: new RegExp(keyword, 'i') },
+      });
+    }
+
+    if (postQueries.length > 0) {
+      searchQuery['$or'] = postQueries;
+    }
+  }
+
+  return searchQuery;
+};
+
 export const list = async (ctx) => {
+  // 페이징 처리
   // query 는 문자열이기 때문에 숫자로 변환해주어야합니다.
-  // 값이 주어지지 않았다면 1, 10 을 기본으로 사용합니다.
+  // 값이 주어지지 않았다면 1, 15 을 기본으로 사용합니다.
   const page = parseInt(ctx.query.page || '1', 10);
   const limit = parseInt(ctx.query.limit || '15', 10);
   const skip = (page - 1) * limit; // 무시할 게시물의 수
@@ -169,12 +214,8 @@ export const list = async (ctx) => {
     return;
   }
 
-  const { tag, username } = ctx.query;
-  // tag, username 값이 유효하면 객체 안에 넣고, 그렇지 않으면 넣지 않음
-  const query = {
-    ...(username ? { 'user.username': username } : {}),
-    ...(tag ? { tags: tag } : {}),
-  };
+  // 검색 처리
+  const query = createSearchQuery(ctx.query);
 
   try {
     const posts = await Post.find(query)
