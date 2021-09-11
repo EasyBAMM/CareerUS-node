@@ -19,6 +19,14 @@ const WriteActionButtonsContainer = ({ history }) => {
 
   // 포스트 등록
   const onPublish = () => {
+    if (title.trim() === "") {
+      alert("제목을 입력하세요.");
+      return;
+    }
+    if (body.trim() === "") {
+      alert("내용을 입력하세요.");
+      return;
+    }
     if (originalPostId) {
       dispatch(updatePost({ title, body, tags, id: originalPostId }));
       return;
