@@ -5,6 +5,7 @@ import sanitizeHtml from 'sanitize-html';
 
 const { ObjectId } = mongoose.Types;
 
+// 글 작성 sanitize 옵션
 const sanitizeOption = {
   allowedTags: [
     'h1',
@@ -77,13 +78,19 @@ export const getPostById = async (ctx, next) => {
     const checkViews = ctx.cookies.get(String(post._id));
     if (!checkViews) {
       const addr =
-        ctx.headers['x-forwarded-for'] || ctx.connection.remoteAddress;
-      ctx.cookies.set(post._id, addr, {
-        maxAge: 1000 * 60 * 10 * 1, // 10 분
-        httpOnly: true,
-      });
-      post.views++; // 조회수 +1
-      await post.save();
+        ctx.headers['x-forwarded-for'] ||
+        ctx.connection.remoteAddress ||
+        ctx.socket.remoteAddress ||
+        ctx.connection.socket.remoteAddress ||
+        null;
+      if (addr) {
+        ctx.cookies.set(post._id, addr, {
+          maxAge: 1000 * 60 * 10 * 1, // 10 분
+          httpOnly: true,
+        });
+        post.views++; // 조회수 +1
+        await post.save();
+      }
     }
 
     ctx.state.post = post;
@@ -93,6 +100,7 @@ export const getPostById = async (ctx, next) => {
   }
 };
 
+// 글 수정, 삭제 권한 미들웨어
 export const checkOwnPost = (ctx, next) => {
   const { user, post } = ctx.state;
   if (post.user._id.toString() !== user._id) {
@@ -214,7 +222,7 @@ export const list = async (ctx) => {
     return;
   }
 
-  // 검색 처리
+  // 검색 쿼리 처리
   const query = createSearchQuery(ctx.query);
 
   try {
