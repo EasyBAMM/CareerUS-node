@@ -24,7 +24,7 @@ const PostItem = ({ post }) => {
     <tr>
       <td>{seq}</td>
       <td>
-        <Link to={`/board/view/?username=${user.username}&postId=${_id}`}>
+        <Link to={`/board/view?username=${user.username}&postId=${_id}`}>
           <div className={cx("post-title-string")}>{title}</div>
         </Link>
         <div className={cx("post-mobile-content")}>
