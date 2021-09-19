@@ -13,7 +13,7 @@ const HeaderContainer = ({ history }) => {
 
   const [active, setActive] = useState(false);
   const onActive = () => {
-    setActive(!active);
+    setActive((active) => !active);
   };
 
   return (
