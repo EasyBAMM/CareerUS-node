@@ -3,7 +3,6 @@ import styles from "./PostViewer.scss";
 import classNames from "classnames/bind";
 import PostHead from "../common/PostHead/PostHead";
 import { Link } from "react-router-dom";
-import Comments from "../common/Comments/Comments";
 
 const cx = classNames.bind(styles);
 
@@ -48,7 +47,6 @@ const PostViewer = ({ post, error, loading, actionButtons }) => {
           __html: body,
         }}
       ></div>
-      <Comments />
     </PostHead>
   );
 };
