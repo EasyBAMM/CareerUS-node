@@ -31,6 +31,11 @@ POST /api/comments/:id
 */
 export const write = async (ctx) => {
   console.log('comment write');
+  const { id } = ctx.params;
+  if (!ObjectId.isValid(id)) {
+    ctx.status = 400; // Bad Request
+    return;
+  }
   const schema = Joi.object().keys({
     // 객체가 다음 필드를 가지고 있음을 검증
     text: Joi.string().required(),
@@ -76,7 +81,12 @@ export const read = async (ctx) => {
   // 값이 주어지지 않았다면 1, 50 을 기본으로 사용합니다.
   const page = parseInt(ctx.query.page || '1', 10);
   const limit = parseInt(ctx.query.limit || '50', 10);
-  const sortType = ctx.query.sortType || 'createdAt';
+  let orderBy = 1;
+  if (ctx.query.orderBy === 'asc') {
+    orderBy = 1;
+  } else if (ctx.query.orderBy === 'desc') {
+    orderBy = -1;
+  }
   const skip = (page - 1) * limit; // 무시할 댓글의 수
   if (page < 1) {
     ctx.status = 400;
@@ -88,10 +98,10 @@ export const read = async (ctx) => {
   // .populate({path: 'author', select: 'username'})
   try {
     const comments = await Comment.find(query)
-      .sort(sortType)
+      .sort({ createdAt: orderBy })
       .limit(limit)
       .skip(skip)
-      .populate({ path: 'author', select: 'username' })
+      .populate({ path: 'author', select: ['username', 'image'] })
       .lean()
       .exec();
 
