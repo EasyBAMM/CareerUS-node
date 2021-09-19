@@ -8,7 +8,7 @@ const UserSchema = new Schema({
   registerCode: String,
   name: String,
   comment: String,
-  image: { type: String, default: '/images/default.jpg' },
+  image: { type: String, default: 'http://localhost:4000/images/default.png' },
 });
 
 UserSchema.methods.setPassword = async function (password) {
