@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import qs from "qs";
 import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "react-router";
@@ -8,8 +8,9 @@ import {
   updateComment,
   writeComment,
 } from "../../../modules/comment";
+import { listComments } from "../../../modules/comments";
 
-const CommentWriteContainer = ({ location }) => {
+const CommentWriteContainer = ({ location, parentAuthor, parentComment }) => {
   // 댓글 입력 이벤트처리
   const [textarea, setTextarea] = useState("");
   const [actionActive, setActionActive] = useState(false);
@@ -43,32 +44,42 @@ const CommentWriteContainer = ({ location }) => {
     [onChangeField]
   );
 
-  const { text, comment, commentError, originalCommentId } = useSelector(
-    ({ comment }) => ({
+  const { text, comment, commentError, originalCommentId, comments } =
+    useSelector(({ comment, comments }) => ({
       text: comment.text,
       comment: comment.comment,
       commentError: comment.commentError,
       originalCommentId: comment.originalCommentId,
-    })
-  );
+      comments: comments.comments,
+    }));
 
   // 댓글 등록
   // 댓글 작성 ID
-  const { postId, orderBy = "asc" } = qs.parse(location.search, {
-    ignoreQueryPrefix: true,
-  });
   const onPublish = () => {
     if (originalCommentId) {
       dispatch(updateComment({ id: originalCommentId, text }));
       return;
     }
+    const {
+      postId,
+      page = 1,
+      orderBy = "asc",
+    } = qs.parse(location.search, {
+      ignoreQueryPrefix: true,
+    });
+    // 개행문자 제거
+    let sendText = textarea.replace(/(?:\r\n|\r|\n){3,}/g, "\n\n\n").trim();
     dispatch(
       writeComment({
         id: postId,
-        text,
+        parentComment,
+        text: sendText,
         orderBy,
       })
     );
+    dispatch(listComments({ id: postId, page, orderBy }));
+    setTextarea("");
+    setActionActive(false);
   };
 
   // 댓글 취소
@@ -96,16 +107,6 @@ const CommentWriteContainer = ({ location }) => {
   // };
 
   // 성공 혹은 실패 시 할 작업
-  //   useEffect(() => {
-  //     if (comment) {
-  //       const { _id, user } = post;
-  //       history.push(`/board/view/?username=${user.username}&postId=${_id}`);
-  //     }
-  //     if (postError) {
-  //       console.log(postError);
-  //       alert("포스트 등록에 실패했습니다.");
-  //     }
-  //   }, [history, post, postError]);
 
   return (
     <CommentWrite
@@ -116,6 +117,8 @@ const CommentWriteContainer = ({ location }) => {
       textarea={textarea}
       onCancel={onCancel}
       onPublish={onPublish}
+      parentComment={parentComment}
+      parentAuthor={parentAuthor}
     />
   );
 };

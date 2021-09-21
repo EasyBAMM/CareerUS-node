@@ -14,10 +14,12 @@ const CommentWrite = ({
   textarea,
   onCancel,
   onPublish,
+  parentComment,
+  parentAuthor,
 }) => {
   return (
     <div className={cx("comments")}>
-      <div className={cx("comment-item")}>
+      <div className={cx("comment-item", { "comment-reply": parentComment })}>
         <div className={cx("comment-area")}>
           <Link to="#" className={cx("comment-thumb")}>
             <img
@@ -28,7 +30,9 @@ const CommentWrite = ({
           <div className={cx("comment-box")}>
             <div className={cx("comment-write-box")}>
               <TextareaAutosize
-                placeholder="댓글을 남겨보세요"
+                placeholder={
+                  parentAuthor ? `@${parentAuthor}` : "댓글을 남겨보세요"
+                }
                 rows="1"
                 onChange={onChangeText}
                 value={textarea}
@@ -46,6 +50,7 @@ const CommentWrite = ({
               <button
                 className={cx("publish-btn", { "btn-active": btnActive })}
                 onClick={onPublish}
+                disabled={!btnActive}
               >
                 등록
               </button>

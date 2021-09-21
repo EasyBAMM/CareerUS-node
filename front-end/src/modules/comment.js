@@ -18,10 +18,14 @@ export const changeField = createAction(CHANGE_FIELD, ({ key, value }) => ({
   key,
   value,
 }));
-export const writeComment = createAction(WRITE_COMMENT, ({ id, text }) => ({
-  id,
-  text,
-}));
+export const writeComment = createAction(
+  WRITE_COMMENT,
+  ({ id, text, parentComment }) => ({
+    id,
+    text,
+    parentComment,
+  })
+);
 export const setOriginalComment = createAction(
   SET_ORIGINAL_COMMENT,
   (comment) => comment

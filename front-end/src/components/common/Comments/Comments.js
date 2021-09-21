@@ -4,71 +4,18 @@ import classNames from "classnames/bind";
 import { Link } from "react-router-dom";
 import { FaRegCommentDots } from "react-icons/fa";
 import CommentWriteContainer from "../../../containers/common/Comments/CommentWriteContainer";
-import { AiFillEdit, AiFillDelete } from "react-icons/ai";
+import Comment from "./Comment";
 
 const cx = classNames.bind(styles);
 
-const datePrint = (createdAt) => {
-  // const postDate = new Date(publishedDate);
-  const postDate = new Date(createdAt);
-  return (
-    postDate.toLocaleDateString() +
-    " " +
-    postDate.getHours() +
-    ":" +
-    postDate.getMinutes()
-  );
-};
-
-const CommentItem = ({ comment, showWriteButton }) => {
-  const { author, text, createdAt, parentComment } = comment;
-
-  // 글 작성자 확인
-  const ownComment =
-    (showWriteButton && showWriteButton._id) === (author && author._id);
-
-  return (
-    <li className={cx("comment-item", { "comment-reply": parentComment })}>
-      <div className={cx("comment-area")}>
-        <Link to="#" className={cx("comment-thumb")}>
-          <img src={author.image} alt="thumbnail" />
-        </Link>
-        <div className={cx("comment-box")}>
-          <div className={cx("comment-nick-box")}>
-            <Link to="#">{author.username}</Link>
-          </div>
-          <div className={cx("comment-text-box")}>
-            <p className={cx("comment-text-view")}>
-              <span className={cx("text-comment")}>{text}</span>
-            </p>
-          </div>
-          <div className={cx("comment-info-box")}>
-            <span className={cx("comment-info-date")}>
-              {datePrint(createdAt)}
-            </span>
-            {showWriteButton && (
-              <Link to="#" className={cx("comment-info-btn")}>
-                답글쓰기
-              </Link>
-            )}
-          </div>
-        </div>
-        {ownComment && (
-          <div className={cx("comment-tool")}>
-            <Link to="#" className={cx("tool-update-btn")}>
-              <AiFillEdit />
-            </Link>
-            <Link to="#" className={cx("tool-delete-btn")}>
-              <AiFillDelete />
-            </Link>
-          </div>
-        )}
-      </div>
-    </li>
-  );
-};
-
-const Comments = ({ comments, loading, error, showWriteButton }) => {
+const Comments = ({
+  comments,
+  loading,
+  error,
+  showWriteButton,
+  orderBy,
+  onChangeSelect,
+}) => {
   return (
     <div className={cx("comments-container")}>
       <div className={cx("comments-content")}>
@@ -77,10 +24,12 @@ const Comments = ({ comments, loading, error, showWriteButton }) => {
             <span className={cx("comments-icon")}>
               <FaRegCommentDots /> 댓글
             </span>
-            <span className={cx("comments-num")}>1</span>
+            <span className={cx("comments-num")}>
+              {!loading && comments && <>{comments.count}</>}
+            </span>
           </Link>
           {/* value={limit} onChange={onChangeSelect} */}
-          <select>
+          <select value={orderBy} onChange={onChangeSelect}>
             <option value="asc">등록순</option>
             <option value="desc">최신순</option>
           </select>
@@ -92,100 +41,17 @@ const Comments = ({ comments, loading, error, showWriteButton }) => {
           <ul className={cx("comments")}>
             {comments.count > 0 ? (
               comments.comments.map((comment) => (
-                <CommentItem
+                <Comment
                   comment={comment}
                   key={comment._id}
                   showWriteButton={showWriteButton}
                 />
               ))
             ) : (
-              <li>내용없음</li>
+              <li></li>
             )}
           </ul>
         )}
-        {/* <ul className={cx("comments")}>
-          <li className={cx("comment-item")}>
-            <div className={cx("comment-area")}>
-              <Link to="#" className={cx("comment-thumb")}>
-                <img
-                  src="http://localhost:4000/images/default.png"
-                  alt="thumbnail"
-                />
-              </Link>
-              <div className={cx("comment-box")}>
-                <div className={cx("comment-nick-box")}>
-                  <Link to="#">허준범</Link>
-                </div>
-                <div className={cx("comment-text-box")}>
-                  <p className={cx("comment-text-view")}>
-                    <span className={cx("text-comment")}>댓글~</span>
-                  </p>
-                </div>
-                <div className={cx("comment-info-box")}>
-                  <span className={cx("comment-info-date")}>{datePrint()}</span>
-                  <Link to="#" className={cx("comment-info-btn")}>
-                    답글쓰기
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li className={cx("comment-item")}>
-            <div className={cx("comment-area")}>
-              <Link to="#" className={cx("comment-thumb")}>
-                <img
-                  src="http://localhost:4000/images/default.png"
-                  alt="thumbnail"
-                />
-              </Link>
-              <div className={cx("comment-box")}>
-                <div className={cx("comment-nick-box")}>
-                  <Link to="#">홍길동</Link>
-                </div>
-                <div className={cx("comment-text-box")}>
-                  <p className={cx("comment-text-view")}>
-                    <span className={cx("text-comment")}>댓글~</span>
-                  </p>
-                </div>
-                <div className={cx("comment-info-box")}>
-                  <span className={cx("comment-info-date")}>{datePrint()}</span>
-                  <Link to="#" className={cx("comment-info-btn")}>
-                    답글쓰기
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li className={cx("comment-item comment-reply")}>
-            <div className={cx("comment-area")}>
-              <Link to="#" className={cx("comment-thumb")}>
-                <img
-                  src="http://localhost:4000/images/1627301595464.png"
-                  alt="thumbnail"
-                />
-              </Link>
-              <div className={cx("comment-box")}>
-                <div className={cx("comment-nick-box")}>
-                  <Link to="#">신규진</Link>
-                </div>
-                <div className={cx("comment-text-box")}>
-                  <p className={cx("comment-text-view")}>
-                    <Link to="#" className={cx("text-nickname")}>
-                      홍길동
-                    </Link>
-                    <span className={cx("text-comment")}>댓글~</span>
-                  </p>
-                </div>
-                <div className={cx("comment-info-box")}>
-                  <span className={cx("comment-info-date")}>{datePrint()}</span>
-                  <Link to="#" className={cx("comment-info-btn")}>
-                    답글쓰기
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </li>
-        </ul> */}
       </div>
     </div>
   );
