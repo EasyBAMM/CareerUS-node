@@ -1,8 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import autoIncrement from 'mongoose-auto-increment';
 
-// const { Schema } = mongoose;
-
 const PostSchema = new Schema({
   seq: Number,
   title: String,
