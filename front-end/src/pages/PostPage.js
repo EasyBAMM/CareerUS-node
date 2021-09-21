@@ -4,6 +4,7 @@ import HeaderContainer from "../containers/common/Header/HeaderContainer";
 import FooterContainer from "../containers/common/Footer/FooterContainer";
 import PostViewerContainer from "../containers/Post/PostViewerContainer";
 import CommentsContainer from "../containers/common/Comments/CommentsContainer";
+import CommentsPagingContainer from "../containers/common/Paging/CommentsPagingContainer";
 
 const PostPage = () => {
   return (
@@ -11,6 +12,7 @@ const PostPage = () => {
       <HeaderContainer />
       <PostViewerContainer />
       <CommentsContainer />
+      <CommentsPagingContainer />
       <FooterContainer />
     </PageTemplate>
   );

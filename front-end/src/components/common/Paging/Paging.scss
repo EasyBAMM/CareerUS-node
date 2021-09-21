@@ -51,10 +51,12 @@
     li a.active {
       text-decoration: underline;
     }
-    // .page-selection {
-    //     width: 48px;
-    //     height: 30px;
-    //     color: #337ab7;
-    // }
+  }
+}
+
+.comments-paging-container {
+  margin: 16px 0 45px;
+  .comments-paging-content {
+    background-color: #fff;
   }
 }

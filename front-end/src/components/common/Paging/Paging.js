@@ -5,7 +5,7 @@ import Pagination from "react-js-pagination";
 
 const cx = classNames.bind(styles);
 
-const Paging = ({ posts, error, loading, onChangePage }) => {
+const Paging = ({ lists, error, loading, onChangePage, isComments }) => {
   // 에러 발생 시
   if (error) {
     return (
@@ -16,17 +16,25 @@ const Paging = ({ posts, error, loading, onChangePage }) => {
   }
 
   return (
-    <div className={cx("paging-container")}>
-      <div className={cx("paging-content")}>
+    <div
+      className={cx("paging-container", {
+        "comments-paging-container": isComments,
+      })}
+    >
+      <div
+        className={cx("paging-content", {
+          "comments-paging-content": isComments,
+        })}
+      >
         {/* 로딩 중이 아니고, 포스트 배열이 존재할 때만 보여 줌 */}
 
-        {!loading && posts && (
+        {!loading && lists && (
           <div className={cx("paging-wrapper")}>
-            {posts.count > 0 ? (
+            {lists.count > 0 ? (
               <Pagination
-                activePage={posts.currentPage}
-                itemsCountPerPage={posts.limit}
-                totalItemsCount={posts.count}
+                activePage={lists.currentPage}
+                itemsCountPerPage={lists.limit}
+                totalItemsCount={lists.count}
                 pageRangeDisplayed={5}
                 prevPageText={"‹"}
                 nextPageText={"›"}

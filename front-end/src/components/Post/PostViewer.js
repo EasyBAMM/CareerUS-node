@@ -6,7 +6,14 @@ import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
-const PostViewer = ({ post, error, loading, actionButtons }) => {
+const PostViewer = ({
+  post,
+  error,
+  loading,
+  actionButtons,
+  comments,
+  loadingComments,
+}) => {
   const category = "게시판";
   // 에러 발생 시
   if (error) {
@@ -36,7 +43,9 @@ const PostViewer = ({ post, error, loading, actionButtons }) => {
           </div>
           <div className={cx("post-subinfo-r")}>
             <span>조회 {views}</span>
-            <span>댓글</span>
+            <span>
+              댓글 {!loadingComments && comments && <>{comments.count}</>}
+            </span>
           </div>
         </div>
       </div>

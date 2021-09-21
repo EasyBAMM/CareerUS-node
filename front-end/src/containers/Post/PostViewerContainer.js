@@ -15,12 +15,14 @@ const PostViewerContainer = ({ location, history }) => {
   });
   // const { postId } = match.params;
   const dispatch = useDispatch();
-  const { post, error, loading, user } = useSelector(
-    ({ post, loading, user }) => ({
+  const { post, error, loading, user, comments, loadingComments } = useSelector(
+    ({ post, loading, user, comments, loadingComments }) => ({
       post: post.post,
       error: post.error,
       loading: loading["post/READ_POST"],
       user: user.user,
+      comments: comments.comments,
+      loadingComments: loading["comments/LIST_COMMENTS"],
     })
   );
 
@@ -60,6 +62,8 @@ const PostViewerContainer = ({ location, history }) => {
       actionButtons={
         ownPost && <PostActionButtons onEdit={onEdit} onRemove={onRemove} />
       }
+      comments={comments}
+      loadingComments={loadingComments}
     />
   );
 };

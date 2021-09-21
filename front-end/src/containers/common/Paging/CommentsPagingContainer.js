@@ -4,32 +4,29 @@ import { useSelector } from "react-redux";
 import Paging from "../../../components/common/Paging/Paging";
 import { withRouter } from "react-router-dom";
 
-const PagingContainer = ({ history, location }) => {
-  const { posts, error, loading } = useSelector(({ posts, loading }) => ({
-    posts: posts.posts,
-    error: posts.error,
-    loading: loading["posts/LIST_POSTS"],
+const CommentsPagingContainer = ({ history, location }) => {
+  const isComments = true;
+  const { comments, error, loading } = useSelector(({ comments, loading }) => ({
+    comments: comments.comments,
+    error: comments.error,
+    loading: loading["comments/LIST_COMMENTS"],
   }));
 
   // page 버튼 클릭 시, 기존 url + page 추가
   const setPage = useCallback(
     (page) => {
       const {
-        tag,
         username,
-        search,
-        keyword,
-        limit = 15,
+        postId,
+        orderBy = "asc",
       } = qs.parse(location.search, {
         ignoreQueryPrefix: true,
       });
       const query = qs.stringify({
-        tag,
         username,
-        search,
-        keyword,
+        postId,
         page,
-        limit,
+        orderBy,
       });
       history.push(location.pathname + `?${query}`);
     },
@@ -38,12 +35,13 @@ const PagingContainer = ({ history, location }) => {
 
   return (
     <Paging
-      posts={posts}
+      lists={comments}
       error={error}
       loading={loading}
       onChangePage={setPage}
+      isComments={isComments}
     />
   );
 };
 
-export default withRouter(PagingContainer);
+export default withRouter(CommentsPagingContainer);
