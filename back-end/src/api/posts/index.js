@@ -7,10 +7,10 @@ const posts = new Router();
 posts.get('/', postsCtrl.list);
 posts.post('/', checkLoggedIn, postsCtrl.write);
 
-const post = new Router(); // /api/posts/:id
+const post = new Router(); // api/posts/:id
 post.get('/', postsCtrl.read);
-post.delete('/', checkLoggedIn, postsCtrl.checkOwnPost, postsCtrl.remove);
 post.patch('/', checkLoggedIn, postsCtrl.checkOwnPost, postsCtrl.update);
+post.delete('/', checkLoggedIn, postsCtrl.checkOwnPost, postsCtrl.remove);
 
 posts.use('/:id', postsCtrl.getPostById, post.routes());
 

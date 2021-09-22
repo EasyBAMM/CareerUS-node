@@ -258,19 +258,6 @@ export const read = (ctx) => {
   ctx.body = ctx.state.post;
 };
 
-/* 특정 포스트 제거
-DELETE /api/posts/:id
-*/
-export const remove = async (ctx) => {
-  const { id } = ctx.params;
-  try {
-    await Post.findByIdAndRemove(id).exec();
-    ctx.status = 204; // No Content (성공하기는 했지만 응답할 데이터는 없음)
-  } catch (e) {
-    ctx.throw(500, e);
-  }
-};
-
 /* 포스트 수정
 PATCH /api/posts/:id
 { 
@@ -312,6 +299,19 @@ export const update = async (ctx) => {
       return;
     }
     ctx.body = post;
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
+/* 특정 포스트 제거
+DELETE /api/posts/:id
+*/
+export const remove = async (ctx) => {
+  const { id } = ctx.params;
+  try {
+    await Post.findByIdAndRemove(id).exec();
+    ctx.status = 204; // No Content (성공하기는 했지만 응답할 데이터는 없음)
   } catch (e) {
     ctx.throw(500, e);
   }
