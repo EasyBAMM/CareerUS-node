@@ -37,6 +37,24 @@ const PostListContainer = ({ history, location }) => {
     [history, location.pathname, location.search]
   );
 
+  // 날짜 표시
+  // 날짜 출력
+  const datePrint = useCallback((publishedDate) => {
+    const addZero = (i) => {
+      if (i < 10) {
+        i = "0" + i;
+      }
+      return i;
+    };
+    const now = new Date(); // defaults to now
+    const postDate = new Date(publishedDate);
+    if (now.toLocaleDateString() === postDate.toLocaleDateString()) {
+      return postDate.getHours() + ":" + addZero(postDate.getMinutes());
+    } else {
+      return postDate.toLocaleDateString();
+    }
+  }, []);
+
   // 포스트 목록 표시
   useEffect(() => {
     const {
@@ -66,6 +84,7 @@ const PostListContainer = ({ history, location }) => {
       showWriteButton={user}
       limit={limit}
       onChangeSelect={onChangeSelect}
+      datePrint={datePrint}
     />
   );
 };

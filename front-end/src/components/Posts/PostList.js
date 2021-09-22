@@ -7,17 +7,7 @@ import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
-const datePrint = (publishedDate) => {
-  const now = new Date(); // defaults to now
-  const postDate = new Date(publishedDate);
-  if (now.toLocaleDateString() === postDate.toLocaleDateString()) {
-    return postDate.getHours() + ":" + postDate.getMinutes();
-  } else {
-    return postDate.toLocaleDateString();
-  }
-};
-
-const PostItem = ({ post }) => {
+const PostItem = ({ post, datePrint }) => {
   // const { publishedDate, user, tags, title, body, _id } = post;
   const { seq, title, user, publishedDate, _id, views } = post;
   return (
@@ -108,6 +98,7 @@ const PostList = ({
   showWriteButton,
   limit,
   onChangeSelect,
+  datePrint,
 }) => {
   const category = "게시판";
   // 에러 발생 시
@@ -138,7 +129,9 @@ const PostList = ({
       {!loading && posts && (
         <tbody>
           {posts.count > 0 ? (
-            posts.posts.map((post) => <PostItem post={post} key={post._id} />)
+            posts.posts.map((post) => (
+              <PostItem post={post} key={post._id} datePrint={datePrint} />
+            ))
           ) : (
             <PostErrorItem>등록된 게시글이 없습니다.</PostErrorItem>
           )}

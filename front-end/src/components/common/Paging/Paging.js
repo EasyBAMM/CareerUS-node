@@ -26,7 +26,7 @@ const Paging = ({ lists, error, loading, onChangePage, isComments }) => {
           "comments-paging-content": isComments,
         })}
       >
-        {/* 로딩 중이 아니고, 포스트 배열이 존재할 때만 보여 줌 */}
+        {/* 로딩 중이 아니고, 리스트 배열이 존재할 때만 보여 줌 */}
 
         {!loading && lists && (
           <div className={cx("paging-wrapper")}>
@@ -48,4 +48,4 @@ const Paging = ({ lists, error, loading, onChangePage, isComments }) => {
   );
 };
 
-export default Paging;
+export default React.memo(Paging);
