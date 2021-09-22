@@ -83,6 +83,7 @@
             .comment-text-view {
               overflow: hidden;
               .text-nickname {
+                color: #3ea6ff;
                 margin-right: 3px;
                 font-weight: 700;
               }
@@ -174,6 +175,12 @@
     }
     .comment-reply {
       padding-left: 46px;
+    }
+    .comment-area-none {
+      display: none;
+    }
+    .comment-update {
+      padding-left: 0;
     }
   }
 }

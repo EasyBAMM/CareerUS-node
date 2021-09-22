@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./Comments.scss";
 import classNames from "classnames/bind";
 import { Link } from "react-router-dom";
@@ -7,25 +7,19 @@ import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 
 const cx = classNames.bind(styles);
 
-const datePrint = (createdAt) => {
-  // const postDate = new Date(publishedDate);
-  const postDate = new Date(createdAt);
-  return (
-    postDate.toLocaleDateString() +
-    " " +
-    postDate.getHours() +
-    ":" +
-    postDate.getMinutes()
-  );
-};
-
-const Comment = ({ comment, showWriteButton }) => {
-  const [openReply, setOpenReply] = useState(false);
-  const onClickReply = (e) => {
-    e.preventDefault();
-    setOpenReply((openReply) => !openReply);
-  };
-  const { author, text, createdAt, parentComment, _id } = comment;
+const Comment = ({
+  comment,
+  showWriteButton,
+  datePrint,
+  openReply,
+  toggleReply,
+  offReply,
+  onRemove,
+  openEdit,
+  onEdit,
+  offEdit,
+}) => {
+  const { _id, author, parentComment, toComment, text, createdAt } = comment;
 
   // 글 작성자 확인
   const ownComment =
@@ -33,17 +27,23 @@ const Comment = ({ comment, showWriteButton }) => {
 
   return (
     <li className={cx("comment-item", { "comment-reply": parentComment })}>
-      <div className={cx("comment-area")}>
-        <Link to="#" className={cx("comment-thumb")}>
+      <div className={cx("comment-area", { "comment-area-none": openEdit })}>
+        <Link
+          to={`/profile/${author.username}`}
+          className={cx("comment-thumb")}
+        >
           <img src={author.image} alt="thumbnail" />
         </Link>
         <div className={cx("comment-box")}>
           <div className={cx("comment-nick-box")}>
-            <Link to="#">{author.username}</Link>
+            <Link to={`/profile/${author.username}`}>{author.username}</Link>
           </div>
           <div className={cx("comment-text-box")}>
             <p className={cx("comment-text-view")}>
-              <div className={cx("text-comment")}>{text}</div>
+              {toComment && (
+                <span className={cx("text-nickname")}>@{toComment}</span>
+              )}
+              <span className={cx("text-comment")}>{text}</span>
             </p>
           </div>
           <div className={cx("comment-info-box")}>
@@ -54,7 +54,7 @@ const Comment = ({ comment, showWriteButton }) => {
               <Link
                 to="#"
                 className={cx("comment-info-btn")}
-                onClick={onClickReply}
+                onClick={toggleReply}
               >
                 답글쓰기
               </Link>
@@ -63,19 +63,27 @@ const Comment = ({ comment, showWriteButton }) => {
         </div>
         {ownComment && (
           <div className={cx("comment-tool")}>
-            <Link to="#" className={cx("tool-update-btn")}>
+            <Link to="#" className={cx("tool-update-btn")} onClick={onEdit}>
               <AiFillEdit />
             </Link>
-            <Link to="#" className={cx("tool-delete-btn")}>
+            <Link to="#" className={cx("tool-delete-btn")} onClick={onRemove}>
               <AiFillDelete />
             </Link>
           </div>
         )}
       </div>
-      {openReply && (
+      {(openReply || openEdit) && (
         <CommentWriteContainer
           parentAuthor={author.username}
           parentComment={_id}
+          originId={_id}
+          originToComment={toComment}
+          originText={text}
+          openReply={openReply}
+          offReply={offReply}
+          openEdit={openEdit}
+          onEdit={onEdit}
+          offEdit={offEdit}
         />
       )}
     </li>

@@ -8,10 +8,9 @@ import { listComments, unloadListComments } from "../../../modules/comments";
 const CommentsContainer = ({ location, history }) => {
   const [orderBy, setOrderBy] = useState("asc");
   const dispatch = useDispatch();
-  const { comments, error, loading, user } = useSelector(
-    ({ comments, error, loading, user }) => ({
+  const { comments, loading, user } = useSelector(
+    ({ comments, loading, user }) => ({
       comments: comments.comments,
-      error: comments.error,
       loading: loading["comments/LIST_COMMENTS"],
       user: user.user,
     })
@@ -35,6 +34,25 @@ const CommentsContainer = ({ location, history }) => {
     [history, location.pathname, location.search]
   );
 
+  // 날짜 출력
+  const datePrint = useCallback((createdAt) => {
+    const addZero = (i) => {
+      if (i < 10) {
+        i = "0" + i;
+      }
+      return i;
+    };
+    // const postDate = new Date(publishedDate);
+    const postDate = new Date(createdAt);
+    return (
+      postDate.toLocaleDateString() +
+      " " +
+      addZero(postDate.getHours()) +
+      ":" +
+      addZero(postDate.getMinutes())
+    );
+  }, []);
+
   // 댓글 표시
   useEffect(() => {
     const {
@@ -44,8 +62,9 @@ const CommentsContainer = ({ location, history }) => {
     } = qs.parse(location.search, {
       ignoreQueryPrefix: true,
     });
+    setOrderBy(orderBy); // orderBy 유지 및 초기화
     dispatch(listComments({ id: postId, page, orderBy }));
-    // 언마운트될 때 리덕스에서 포스트 데이터 없애기
+    // 언마운트될 때 리덕스에서 댓글 데이터 없애기
     return () => {
       dispatch(unloadListComments());
     };
@@ -54,11 +73,11 @@ const CommentsContainer = ({ location, history }) => {
   return (
     <Comments
       loading={loading}
-      error={error}
       comments={comments}
       showWriteButton={user}
       orderBy={orderBy}
       onChangeSelect={onChangeSelect}
+      datePrint={datePrint}
     />
   );
 };

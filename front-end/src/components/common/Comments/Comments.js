@@ -4,17 +4,17 @@ import classNames from "classnames/bind";
 import { Link } from "react-router-dom";
 import { FaRegCommentDots } from "react-icons/fa";
 import CommentWriteContainer from "../../../containers/common/Comments/CommentWriteContainer";
-import Comment from "./Comment";
+import CommentContainer from "../../../containers/common/Comments/CommentContainer";
 
 const cx = classNames.bind(styles);
 
 const Comments = ({
   comments,
   loading,
-  error,
   showWriteButton,
   orderBy,
   onChangeSelect,
+  datePrint,
 }) => {
   return (
     <div className={cx("comments-container")}>
@@ -41,10 +41,11 @@ const Comments = ({
           <ul className={cx("comments")}>
             {comments.count > 0 ? (
               comments.comments.map((comment) => (
-                <Comment
+                <CommentContainer
                   comment={comment}
                   key={comment._id}
                   showWriteButton={showWriteButton}
+                  datePrint={datePrint}
                 />
               ))
             ) : (

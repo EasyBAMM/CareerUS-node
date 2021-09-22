@@ -9,9 +9,8 @@ const INITIALIZE = "comment/INITIALIZE"; // 모든 내용 초기화
 const CHANGE_FIELD = "comment/CHANGE_FIELD"; // 특정 key 값 바꾸기
 const [WRITE_COMMENT, WRITE_COMMENT_SUCCESS, WRITE_COMMENT_FAILURE] =
   createRequestActionTypes("comment/WRITE_POST"); // 댓글 작성
-const SET_ORIGINAL_COMMENT = "comment/SET_ORIGINAL_COMMENT"; // 댓글 수정 받아오기
 const [UPDATE_COMMENT, UPDATE_COMMENT_SUCCESS, UPDATE_COMMENT_FAILURE] =
-  createRequestActionTypes("write/UPDATE_POST"); // 댓글 수정
+  createRequestActionTypes("comment/UPDATE_POST"); // 댓글 수정
 
 export const initialize = createAction(INITIALIZE);
 export const changeField = createAction(CHANGE_FIELD, ({ key, value }) => ({
@@ -20,20 +19,23 @@ export const changeField = createAction(CHANGE_FIELD, ({ key, value }) => ({
 }));
 export const writeComment = createAction(
   WRITE_COMMENT,
-  ({ id, text, parentComment }) => ({
+  ({ id, parentComment, toComment, text }) => ({
     id,
-    text,
     parentComment,
+    toComment,
+    text,
   })
 );
-export const setOriginalComment = createAction(
-  SET_ORIGINAL_COMMENT,
-  (comment) => comment
+
+export const updateComment = createAction(
+  UPDATE_COMMENT,
+  ({ id, commentId, toComment, text }) => ({
+    id,
+    commentId,
+    toComment,
+    text,
+  })
 );
-export const updateComment = createAction(UPDATE_COMMENT, ({ id, text }) => ({
-  id,
-  text,
-}));
 
 // 사가 생성
 const writeCommentSaga = createRequestSaga(
@@ -79,12 +81,6 @@ const comment = handleActions(
     [WRITE_COMMENT_FAILURE]: (state, { payload: commentError }) => ({
       ...state,
       commentError,
-    }),
-    // 댓글 글 수정 받아오기
-    [SET_ORIGINAL_COMMENT]: (state, { payload: comment }) => ({
-      ...state,
-      text: comment.text,
-      originalCommentId: comment._id,
     }),
     // 댓글 글 수정 성공
     [UPDATE_COMMENT_SUCCESS]: (state, { payload: comment }) => ({

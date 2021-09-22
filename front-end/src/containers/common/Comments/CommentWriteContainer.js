@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import qs from "qs";
 import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "react-router";
@@ -10,19 +10,29 @@ import {
 } from "../../../modules/comment";
 import { listComments } from "../../../modules/comments";
 
-const CommentWriteContainer = ({ location, parentAuthor, parentComment }) => {
-  // 댓글 입력 이벤트처리
-  const [textarea, setTextarea] = useState("");
-  const [actionActive, setActionActive] = useState(false);
-  const [btnActive, setBtnActive] = useState(false);
-
+const CommentWriteContainer = ({
+  parentAuthor,
+  parentComment,
+  originId,
+  originToComment,
+  originText,
+  openReply,
+  offReply,
+  openEdit,
+  offEdit,
+  location,
+}) => {
+  const [textarea, setTextarea] = useState(""); // 댓글 입력 이벤트처리
+  const [actionActive, setActionActive] = useState(false); // 댓글 입력창 UI표시
+  const [btnActive, setBtnActive] = useState(false); // 등록(수정) 버튼
   const dispatch = useDispatch();
-
-  // 댓글 입력
+  const { user } = useSelector(({ user }) => ({ user: user.user }));
+  // 댓글 입력창
   const onFocus = () => {
     setActionActive(true);
   };
 
+  // 댓글 입력
   const onChangeField = useCallback(
     (payload) => dispatch(changeField(payload)),
     [dispatch]
@@ -44,22 +54,22 @@ const CommentWriteContainer = ({ location, parentAuthor, parentComment }) => {
     [onChangeField]
   );
 
-  const { text, comment, commentError, originalCommentId, comments } =
-    useSelector(({ comment, comments }) => ({
-      text: comment.text,
-      comment: comment.comment,
-      commentError: comment.commentError,
-      originalCommentId: comment.originalCommentId,
-      comments: comments.comments,
-    }));
+  // 댓글 작성 취소
+  const onCancel = (e) => {
+    onChangeField({ key: "text", value: "" });
+    setTextarea("");
+    setActionActive(false);
+    // 부모 state 변경 함수, 댓글입력창을 공유해서 사용하기 때문에, 맨 위 댓글창에 수정, 대댓글 창없음
+    if (openReply) {
+      offReply(e);
+    }
+    if (openEdit) {
+      offEdit(e);
+    }
+  };
 
   // 댓글 등록
-  // 댓글 작성 ID
   const onPublish = () => {
-    if (originalCommentId) {
-      dispatch(updateComment({ id: originalCommentId, text }));
-      return;
-    }
     const {
       postId,
       page = 1,
@@ -68,45 +78,58 @@ const CommentWriteContainer = ({ location, parentAuthor, parentComment }) => {
       ignoreQueryPrefix: true,
     });
     // 개행문자 제거
+    let toComment = undefined;
     let sendText = textarea.replace(/(?:\r\n|\r|\n){3,}/g, "\n\n\n").trim();
-    dispatch(
-      writeComment({
-        id: postId,
-        parentComment,
-        text: sendText,
-        orderBy,
-      })
-    );
+    const pattern = new RegExp(`^@${parentAuthor}`);
+    if (sendText.match(pattern)) {
+      sendText = sendText.replace(`@${parentAuthor}`, "");
+      toComment = `${parentAuthor}`;
+    }
+
+    if (openEdit) {
+      console.log("update publish 실행");
+      console.log("sendText: ", sendText);
+      dispatch(
+        updateComment({
+          id: postId,
+          commentId: originId,
+          toComment,
+          text: sendText,
+        })
+      );
+    } else {
+      dispatch(
+        writeComment({
+          id: postId,
+          parentComment,
+          toComment,
+          text: sendText,
+        })
+      );
+    }
     dispatch(listComments({ id: postId, page, orderBy }));
     setTextarea("");
     setActionActive(false);
   };
 
-  // 댓글 취소
-  const onCancel = () => {
-    onChangeField({ key: "text", value: "" });
-    setTextarea("");
-    setActionActive(false);
-  };
-
-  // 댓글 수정
-  // const onEdit = () => {
-  //   dispatch(setOriginalPost(post));
-  //   history.push("/write");
-  // };
-
-  // 댓글 삭제
-  // const onRemove = async () => {
-  //   try {
-  //     await removePost(postId);
-  //     history.push("/board/lists"); // 홈으로 이동
-  //     alert("작성글이 삭제되었습니다.");
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
-
-  // 성공 혹은 실패 시 할 작업
+  useEffect(() => {
+    // 처음 댓글 작성 오픈 시 보여질 글 설정
+    if (parentAuthor) {
+      // 답글 달기로 열었을 때
+      setTextarea(`@${parentAuthor} `);
+    }
+    if (openEdit) {
+      // 댓글수정으로 열었을 때
+      if (originToComment) {
+        setTextarea(`@${originToComment} ${originText}`);
+      } else {
+        setTextarea(`${originText}`);
+      }
+    }
+    return () => {
+      setTextarea("");
+    };
+  }, [parentAuthor, openEdit, originToComment, originText]);
 
   return (
     <CommentWrite
@@ -117,8 +140,10 @@ const CommentWriteContainer = ({ location, parentAuthor, parentComment }) => {
       textarea={textarea}
       onCancel={onCancel}
       onPublish={onPublish}
+      openEdit={openEdit}
       parentComment={parentComment}
       parentAuthor={parentAuthor}
+      user={user}
     />
   );
 };
