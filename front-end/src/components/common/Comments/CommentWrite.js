@@ -14,16 +14,31 @@ const CommentWrite = ({
   textarea,
   onCancel,
   onPublish,
+  openEdit,
   parentComment,
   parentAuthor,
+  user,
 }) => {
   return (
     <div className={cx("comments")}>
-      <div className={cx("comment-item", { "comment-reply": parentComment })}>
+      <div
+        className={cx(
+          "comment-item",
+          { "comment-reply": parentComment },
+          { "comment-update": openEdit }
+        )}
+      >
         <div className={cx("comment-area")}>
-          <Link to="#" className={cx("comment-thumb")}>
+          <Link
+            to={`/profile/${user.username}`}
+            className={cx("comment-thumb")}
+          >
             <img
-              src="http://localhost:4000/images/default.png"
+              src={
+                user.image
+                  ? user.image
+                  : "http://localhost:4000/images/default.png"
+              }
               alt="thumbnail"
             />
           </Link>
@@ -52,7 +67,7 @@ const CommentWrite = ({
                 onClick={onPublish}
                 disabled={!btnActive}
               >
-                등록
+                {openEdit ? "수정" : "등록"}
               </button>
             </div>
           </div>
