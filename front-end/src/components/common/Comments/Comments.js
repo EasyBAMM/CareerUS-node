@@ -10,12 +10,18 @@ const cx = classNames.bind(styles);
 
 const Comments = ({
   comments,
+  error,
   loading,
   showWriteButton,
   orderBy,
   onChangeSelect,
   datePrint,
 }) => {
+  // 에러 발생 시
+  if (error) {
+    return null;
+  }
+
   return (
     <div className={cx("comments-container")}>
       <div className={cx("comments-content")}>

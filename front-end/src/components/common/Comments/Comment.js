@@ -36,7 +36,9 @@ const Comment = ({
         </Link>
         <div className={cx("comment-box")}>
           <div className={cx("comment-nick-box")}>
-            <Link to={`/profile/${author.username}`}>{author.username}</Link>
+            <Link to={`/profile/view?username=${author.username}`}>
+              {author.username}
+            </Link>
           </div>
           <div className={cx("comment-text-box")}>
             <p className={cx("comment-text-view")}>

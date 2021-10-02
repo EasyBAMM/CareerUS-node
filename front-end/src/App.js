@@ -8,6 +8,7 @@ import WritePage from "./pages/WritePage";
 import NotFoundPage from "./pages/NotFoundPage";
 import PostPage from "./pages/PostPage";
 import PostListPage from "./pages/PostListPage";
+import ProfilePage from "./pages/ProfilePage";
 // import PostListPage from "./pages/PostListPage";
 // import PostPage from "./pages/PostPage";
 
@@ -22,6 +23,7 @@ const App = () => {
         <PrivateRoute component={WritePage} path="/write" />
         <PrivateRoute component={PostPage} path={"/board/view"} />
         <PrivateRoute component={PostListPage} path={"/board/lists"} />
+        <PrivateRoute component={ProfilePage} path={"/profile/view"} />
         <Route component={NotFoundPage} />
         {/* <Route component={PostListPage} path="/@:username" />
       <Route component={WritePage} path="/write" />

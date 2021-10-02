@@ -8,9 +8,10 @@ import { listComments, unloadListComments } from "../../../modules/comments";
 const CommentsContainer = ({ location, history }) => {
   const [orderBy, setOrderBy] = useState("asc");
   const dispatch = useDispatch();
-  const { comments, loading, user } = useSelector(
+  const { comments, error, loading, user } = useSelector(
     ({ comments, loading, user }) => ({
       comments: comments.comments,
+      error: comments.error,
       loading: loading["comments/LIST_COMMENTS"],
       user: user.user,
     })
@@ -73,6 +74,7 @@ const CommentsContainer = ({ location, history }) => {
   return (
     <Comments
       loading={loading}
+      error={error}
       comments={comments}
       showWriteButton={user}
       orderBy={orderBy}

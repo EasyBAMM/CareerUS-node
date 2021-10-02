@@ -1,0 +1,24 @@
+.useraction-about {
+  width: 100%;
+  .about-title {
+    padding: 16px 0;
+    color: #979797;
+  }
+
+  .about {
+    width: 100%;
+    font-size: 13px;
+    .about-item {
+      width: 100%;
+      padding: 8px 0;
+      .about-item-title {
+        display: inline-block;
+        width: 20%;
+        font-weight: 600;
+      }
+      .about-item-body {
+        color: #3ea6ff;
+      }
+    }
+  }
+}

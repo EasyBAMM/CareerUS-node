@@ -8,11 +8,7 @@ const cx = classNames.bind(styles);
 const Paging = ({ lists, error, loading, onChangePage, isComments }) => {
   // 에러 발생 시
   if (error) {
-    return (
-      <div className={cx("paging-container")}>
-        <div className={cx("paging-content")}>{error}</div>
-      </div>
-    );
+    return null;
   }
 
   return (

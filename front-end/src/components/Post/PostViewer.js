@@ -22,12 +22,12 @@ const PostViewer = ({
         <PostHead category={category}>존재하지 않는 포스트입니다.</PostHead>
       );
     }
-    return <PostHead category={category}>오류 발생!</PostHead>;
+    return <PostHead category={category}>잘못된 요청정보입니다.</PostHead>;
   }
 
   // 로딩 중이거나 아직 포스트 데이터가 없을 때
   if (loading || !post) {
-    return null;
+    return <PostHead category={category}>로딩 중입니다...</PostHead>;
   }
   const { title, body, user, publishedDate, tags, views } = post;
   return (
@@ -37,7 +37,9 @@ const PostViewer = ({
         <div className={cx("post-subinfo")}>
           <div className={cx("post-subinfo-l")}>
             <span>
-              <Link to={`/profile/${user.username}`}>{user.username}</Link>
+              <Link to={user ? `/profile/view?username=${user.username}` : "#"}>
+                {user.username}
+              </Link>
             </span>
             <span>{new Date(publishedDate).toLocaleString()}</span>
           </div>

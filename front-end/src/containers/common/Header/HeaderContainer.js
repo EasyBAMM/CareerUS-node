@@ -7,7 +7,8 @@ import { logout } from "../../../modules/user";
 const HeaderContainer = ({ history }) => {
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   const dispatch = useDispatch();
-  const onLogout = () => {
+  const onLogout = (e) => {
+    e.preventDefault();
     dispatch(logout());
   };
 
