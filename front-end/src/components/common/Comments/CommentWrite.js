@@ -30,7 +30,7 @@ const CommentWrite = ({
       >
         <div className={cx("comment-area")}>
           <Link
-            to={`/profile/${user.username}`}
+            to={`/profile/view?username=${user.username}&userId=${user._id}`}
             className={cx("comment-thumb")}
           >
             <img

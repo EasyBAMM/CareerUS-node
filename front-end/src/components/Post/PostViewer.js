@@ -8,8 +8,8 @@ const cx = classNames.bind(styles);
 
 const PostViewer = ({
   post,
-  error,
   loading,
+  error,
   actionButtons,
   comments,
   loadingComments,

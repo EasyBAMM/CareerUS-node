@@ -37,7 +37,13 @@ const Header = ({ user, onLogout, onActive, active }) => {
         <nav className={cx("rnb", { active })}>
           <ul>
             <li>
-              <Link to={user ? `/profile/view?username=${user.username}` : "#"}>
+              <Link
+                to={
+                  user
+                    ? `/profile/view?username=${user.username}&userId=${user._id}`
+                    : "#"
+                }
+              >
                 <FiFileText />
                 {user && user.name ? user.name + "님" : "마이페이지"}
               </Link>

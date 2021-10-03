@@ -16,7 +16,7 @@ const PostViewerContainer = ({ location, history }) => {
   // const { postId } = match.params;
   const dispatch = useDispatch();
   const { post, error, loading, user, comments, loadingComments } = useSelector(
-    ({ post, loading, user, comments, loadingComments }) => ({
+    ({ post, loading, user, comments }) => ({
       post: post.post,
       error: post.error,
       loading: loading["post/READ_POST"],

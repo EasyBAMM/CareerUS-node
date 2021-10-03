@@ -29,14 +29,16 @@ const Comment = ({
     <li className={cx("comment-item", { "comment-reply": parentComment })}>
       <div className={cx("comment-area", { "comment-area-none": openEdit })}>
         <Link
-          to={`/profile/${author.username}`}
+          to={`/profile/view?username=${author.username}&userId=${author._id}`}
           className={cx("comment-thumb")}
         >
           <img src={author.image} alt="thumbnail" />
         </Link>
         <div className={cx("comment-box")}>
           <div className={cx("comment-nick-box")}>
-            <Link to={`/profile/view?username=${author.username}`}>
+            <Link
+              to={`/profile/view?username=${author.username}&userId=${author._id}`}
+            >
               {author.username}
             </Link>
           </div>
