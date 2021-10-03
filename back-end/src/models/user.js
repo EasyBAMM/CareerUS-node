@@ -9,6 +9,15 @@ const UserSchema = new Schema({
   name: String,
   comment: String,
   image: { type: String, default: 'http://localhost:4000/images/default.png' },
+  userjob: String,
+  email: String,
+  site: String,
+  works: [String], // 문자열로 이루어진 배열
+  skills: [String],
+  views: {
+    type: Number,
+    default: 0,
+  },
 });
 
 UserSchema.methods.setPassword = async function (password) {

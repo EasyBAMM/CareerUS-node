@@ -67,7 +67,7 @@ export const getPostById = async (ctx, next) => {
     return;
   }
   try {
-    const post = await Post.findById(id);
+    const post = await Post.findById(id).exec();
     // 포스트가 존재하지 않을 때
     if (!post) {
       ctx.status = 404; // Not Found
