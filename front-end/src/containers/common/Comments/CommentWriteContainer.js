@@ -5,6 +5,7 @@ import { withRouter } from "react-router";
 import CommentWrite from "../../../components/common/Comments/CommentWrite";
 import {
   changeField,
+  initialize,
   updateComment,
   writeComment,
 } from "../../../modules/comment";
@@ -107,10 +108,30 @@ const CommentWriteContainer = ({
         })
       );
     }
-    dispatch(listComments({ id: postId, page, orderBy }));
+    // dispatch(listComments({ id: postId, page, orderBy }));
     setTextarea("");
     setActionActive(false);
   };
+
+  // 댓글 작성 완료 시 상태 정보 가져옴
+  const { comment } = useSelector(({ comment }) => ({
+    comment: comment.comment,
+  }));
+
+  useEffect(() => {
+    const {
+      postId,
+      page = 1,
+      orderBy = "asc",
+    } = qs.parse(location.search, {
+      ignoreQueryPrefix: true,
+    });
+    // 댓글 작성 완료 시 다시 요청함
+    if (comment) {
+      dispatch(initialize());
+      dispatch(listComments({ id: postId, page, orderBy }));
+    }
+  }, [dispatch, location.search, comment]);
 
   useEffect(() => {
     // 처음 댓글 작성 오픈 시 보여질 글 설정
