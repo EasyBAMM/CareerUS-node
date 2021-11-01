@@ -4,6 +4,7 @@ import { withRouter } from "react-router";
 import Profile from "../../components/Profile/Profile";
 import { useDispatch, useSelector } from "react-redux";
 import { readProfile, unloadProfile } from "../../modules/profile";
+import { setOriginalProfile } from "../../modules/writeProfile";
 
 const ProfileContainer = ({ location, history }) => {
   // 처음 마운트될 때 프로필 읽기 API 요청
@@ -30,10 +31,10 @@ const ProfileContainer = ({ location, history }) => {
   }, [dispatch, userId]);
 
   // 프로필 수정
-  // const onEdit = () => {
-  //   dispatch(setOriginalProfile(profile));
-  //   history.push("/profile")
-  // };
+  const onEdit = () => {
+    dispatch(setOriginalProfile(profile));
+    history.push("/profile/write");
+  };
 
   // 프로필 작성자 확인
   const ownProfile = (user && user._id) === (profile && profile._id);
@@ -44,6 +45,7 @@ const ProfileContainer = ({ location, history }) => {
       loading={loading}
       error={error}
       actionButton={ownProfile}
+      onEdit={onEdit}
     />
   );
 };

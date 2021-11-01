@@ -2,103 +2,17 @@ import React from "react";
 import styles from "./Profile.scss";
 import classNames from "classnames/bind";
 import { Link } from "react-router-dom";
-import { RiUserFill, RiEdit2Fill, RiShoppingCart2Fill } from "react-icons/ri";
+import { RiUserFill } from "react-icons/ri";
 import About from "./About";
 
 const cx = classNames.bind(styles);
 
-// const ProfileBlock = () => {
-//   return (
-//     <div className={cx("profile-container")}>
-//       <div className={cx("profile-content-wrap")}>
-//         <div className={cx("profile-content")}>
-//           <div className={cx("content-left")}>
-//             <div className={cx("userimage-container")}>
-//               <div className={cx("userimage-wrap")}>
-//                 <img
-//                   src="http://localhost:4000/images/1625674058699.png"
-//                   alt="userimage"
-//                 />
-//               </div>
-//             </div>
-//             <div className={cx("edit-container")}>
-//               <Link to="#">Edit Profile</Link>
-//             </div>
-//             <div className={cx("work-container")}>
-//               <p className={cx("line-title")}>WORK</p>
-//               <ul className={cx("works")}>
-//                 <li className={cx("work-item")}>네이버</li>
-//                 <li className={cx("work-item")}>2021.05.05-</li>
-//                 <li className={cx("work-item")}>AI융합학부</li>
-//                 <li className={cx("work-item")}>2016.02-2021.02</li>
-//               </ul>
-//             </div>
-//             <div className={cx("skills-container")}>
-//               <p className={cx("line-title")}>SKILLS</p>
-//               <ul className={cx("skills")}>
-//                 <li className={cx("skills-item")}>Branding</li>
-//                 <li className={cx("skills-item")}>UI/UX</li>
-//                 <li className={cx("skills-item")}>Web-Design</li>
-//                 <li className={cx("skills-item")}>Packaging</li>
-//               </ul>
-//             </div>
-//           </div>
-//           <div className={cx("content-right")}>
-//             <div className={cx("userprofile-container")}>
-//               <div className={cx("userprofile-content")}>
-//                 <div className={cx("userprofile-title")}>
-//                   <p className={cx("userprofile-username")}>qwerty</p>
-//                   <p className={cx("userprofile-userjob")}>Product Enginer</p>
-//                   <p className={cx("userprofile-usercomment")}>Hello world!</p>
-//                 </div>
-//                 <div className={cx("userprofile-body")}></div>
-//               </div>
-//             </div>
-//             <div className={cx("useraction-container")}>
-//               <ul className={cx("useraction-bar")}>
-//                 <li className={cx("useraction-item ")}>
-//                   <Link to="#" className={cx("item-active")}>
-//                     <RiUserFill />
-//                     About
-//                   </Link>
-//                 </li>
-//                 <li className={cx("useraction-item")}>
-//                   <Link to="#">
-//                     <RiEdit2Fill />
-//                     Post
-//                   </Link>
-//                 </li>
-//                 <li className={cx("useraction-item")}>
-//                   <Link to="#">
-//                     <RiShoppingCart2Fill />
-//                     Store
-//                   </Link>
-//                 </li>
-//               </ul>
-//               <div className={cx("useraction-content")}>
-//                 <About />
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-const ProfileBlock = ({ profile, actionButton }) => {
-  const {
-    _id,
-    username,
-    name,
-    comment,
-    image,
-    userjob,
-    email,
-    site,
-    works,
-    skills,
-  } = profile;
+const ProfileBlock = ({ profile, actionButton, onEdit }) => {
+  const { username, name, comment, image, userjob, email, site, works, skills } = profile;
+  const encrypt = (inputstr) => {
+    let encryptStr = inputstr.substr(0, 2) + inputstr.substr(2, inputstr.length).replace(/./gi, "*");
+    return encryptStr;
+  };
   return (
     <div className={cx("profile-container")}>
       <div className={cx("profile-content-wrap")}>
@@ -106,16 +20,15 @@ const ProfileBlock = ({ profile, actionButton }) => {
           <div className={cx("content-left")}>
             <div className={cx("userimage-container")}>
               <div className={cx("userimage-wrap")}>
-                <img
-                  src={
-                    image ? image : "http://localhost:4000/images/default.png"
-                  }
-                  alt="userimage"
-                />
+                <img src={image ? image : "http://localhost:4000/images/default.png"} alt="userimage" />
               </div>
             </div>
             <div className={cx("edit-container")}>
-              {actionButton && <Link to="#">Edit Profile</Link>}
+              {actionButton && (
+                <button to="#" onClick={onEdit}>
+                  Edit Profile
+                </button>
+              )}
             </div>
             <div className={cx("works-container")}>
               <p className={cx("line-title")}>WORKS</p>
@@ -145,14 +58,10 @@ const ProfileBlock = ({ profile, actionButton }) => {
               <div className={cx("userprofile-content")}>
                 <div className={cx("userprofile-title")}>
                   <p className={cx("userprofile-username")}>
-                    {name && name} {username && `(${username})`}
+                    {name && name} {username && `(${encrypt(username)})`}
                   </p>
-                  <p className={cx("userprofile-userjob")}>
-                    {userjob && userjob}
-                  </p>
-                  <p className={cx("userprofile-usercomment")}>
-                    {comment && comment}
-                  </p>
+                  <p className={cx("userprofile-userjob")}>{userjob && userjob}</p>
+                  <p className={cx("userprofile-usercomment")}>{comment && comment}</p>
                 </div>
                 <div className={cx("userprofile-body")}></div>
               </div>
@@ -160,12 +69,12 @@ const ProfileBlock = ({ profile, actionButton }) => {
             <div className={cx("useraction-container")}>
               <ul className={cx("useraction-bar")}>
                 <li className={cx("useraction-item ")}>
-                  <Link to="#" className={cx("item-active")}>
+                  <Link to="#" className={cx("item-active")} onClick={(e) => e.preventDefault()}>
                     <RiUserFill />
                     About
                   </Link>
                 </li>
-                <li className={cx("useraction-item")}>
+                {/* <li className={cx("useraction-item")}>
                   <Link to="#">
                     <RiEdit2Fill />
                     Post
@@ -176,7 +85,7 @@ const ProfileBlock = ({ profile, actionButton }) => {
                     <RiShoppingCart2Fill />
                     Store
                   </Link>
-                </li>
+                </li> */}
               </ul>
               <div className={cx("useraction-content")}>
                 <About email={email && email} site={site && site} />
@@ -189,7 +98,7 @@ const ProfileBlock = ({ profile, actionButton }) => {
   );
 };
 
-const Profile = ({ profile, loading, error, actionButton }) => {
+const Profile = ({ profile, loading, error, actionButton, onEdit }) => {
   // 에러 발생 시
   if (error) {
     if (error.response && error.response.status === 404) {
@@ -205,7 +114,7 @@ const Profile = ({ profile, loading, error, actionButton }) => {
     const profile = { name: "로딩 중입니다..." };
     return <Profile profile={profile} />;
   }
-  return <ProfileBlock profile={profile} actionButton={actionButton} />;
+  return <ProfileBlock profile={profile} actionButton={actionButton} onEdit={onEdit} />;
 };
 
 export default Profile;

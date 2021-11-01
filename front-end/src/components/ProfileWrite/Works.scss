@@ -1,0 +1,73 @@
+.works-container {
+  .works-content {
+    .works-form {
+      border-radius: 2px;
+      overflow: hidden;
+      display: flex;
+      width: 320px;
+      border: 1px solid rgb(196, 196, 196);
+      height: 28px;
+
+      input,
+      button {
+        outline: none;
+        border: none;
+        font-size: 13px;
+      }
+      input {
+        padding: 8px;
+        flex: 1;
+        min-width: 0;
+      }
+      button {
+        background-color: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+        padding: 4px 6px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        &:hover {
+          background: #b9b9b9;
+        }
+      }
+    }
+    .works-list {
+      margin-top: 8px;
+    }
+    .work {
+      margin-right: 8px;
+      color: #8b8b8b;
+      cursor: pointer;
+      &:nth-child(odd)::before {
+        content: "• ";
+      }
+      &:nth-child(odd) {
+        color: #3ea6ff;
+        list-style: circle;
+        padding-bottom: 2px;
+        font-size: 13px;
+      }
+      &:nth-child(even)::before {
+        content: "‒ ";
+      }
+      &:nth-child(even) {
+        padding-left: 8px;
+        padding-bottom: 4px;
+        color: #979797;
+        font-size: 12px;
+      }
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .works-content {
+      .works-form {
+        width: 90%;
+      }
+    }
+  }
+}

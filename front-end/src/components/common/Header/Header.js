@@ -22,12 +22,12 @@ const Header = ({ user, onLogout, onActive, active }) => {
               </Link>
             </li>
             <li>
-              <Link to="#">
+              <Link to="/board/lists">
                 <span>중고장터</span>
               </Link>
             </li>
             <li>
-              <Link to="#">
+              <Link to="/board/lists">
                 <span>인맥찾기</span>
               </Link>
             </li>
@@ -37,13 +37,7 @@ const Header = ({ user, onLogout, onActive, active }) => {
         <nav className={cx("rnb", { active })}>
           <ul>
             <li>
-              <Link
-                to={
-                  user
-                    ? `/profile/view?username=${user.username}&userId=${user._id}`
-                    : "#"
-                }
-              >
+              <Link to={user ? `/profile/view?username=${user.username}&userId=${user._id}` : "#"}>
                 <FiFileText />
                 {user && user.name ? user.name + "님" : "마이페이지"}
               </Link>

@@ -9,13 +9,16 @@ const cx = classNames.bind(styles);
 
 const PostItem = ({ post, datePrint }) => {
   // const { publishedDate, user, tags, title, body, _id } = post;
-  const { seq, title, user, publishedDate, _id, views } = post;
+  const { seq, title, user, publishedDate, _id, views, comments } = post;
   return (
     <tr>
       <td>{seq}</td>
       <td>
         <Link to={`/board/view?username=${user.username}&postId=${_id}`}>
-          <div className={cx("post-title-string")}>{title}</div>
+          <div className={cx("post-title-string")}>
+            {title}
+            {comments > 0 ? (<span className={cx("post-comments")}>{comments}</span>) : null}
+          </div>
         </Link>
         <div className={cx("post-mobile-content")}>
           <span>{user.username}</span>
@@ -24,7 +27,7 @@ const PostItem = ({ post, datePrint }) => {
           <span>|</span>
           <span>조회 {views}</span>
           <span>|</span>
-          <span>댓글 3</span>
+          <span>댓글 {comments}</span>
         </div>
       </td>
       <td>
@@ -70,7 +73,7 @@ const PostListBlock = ({
         </div>
         <div className={cx("post-btn")}>
           {showWriteButton && (
-            <Link to="/write">
+            <Link to="/board/write">
               <RiEdit2Fill />
               글쓰기
             </Link>

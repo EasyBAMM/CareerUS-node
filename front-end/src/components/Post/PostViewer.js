@@ -37,8 +37,8 @@ const PostViewer = ({
         <div className={cx("post-subinfo")}>
           <div className={cx("post-subinfo-l")}>
             <span>
-              <Link to={user ? `/profile/view?username=${user.username}` : "#"}>
-                {user.username}
+              <Link to={user ? `/profile/view?username=${user.username}&userId=${user._id}` : "#"}>
+                {user.name}
               </Link>
             </span>
             <span>{new Date(publishedDate).toLocaleString()}</span>

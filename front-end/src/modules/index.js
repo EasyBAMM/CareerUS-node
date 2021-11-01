@@ -10,6 +10,7 @@ import comments, { commentsSaga } from "./comments";
 import comment, { commentSaga } from "./comment";
 import profiles, { profilesSaga } from "./profiles";
 import profile, { profileSaga } from "./profile";
+import writeProfile, { writeProfileSaga } from "./writeProfile";
 
 const rootReducer = combineReducers({
   auth,
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   comment,
   profiles,
   profile,
+  writeProfile,
 });
 
 export function* rootSaga() {
@@ -35,6 +37,7 @@ export function* rootSaga() {
     commentSaga(),
     profilesSaga(),
     profileSaga(),
+    writeProfileSaga(),
   ]);
 }
 

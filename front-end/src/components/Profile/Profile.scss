@@ -35,7 +35,12 @@
         padding: 16px 0 0;
         text-align: center;
 
-        a {
+        button {
+          cursor: pointer;
+          border: none;
+          color: #333;
+          font-size: 16px;
+          font-family: "Noto Sans KR", sans-serif;
           display: block;
           width: 100%;
           padding: 3px;
@@ -49,20 +54,25 @@
         min-height: 135px;
 
         .works {
-          padding-left: 24px;
+          padding-left: 20px;
           .work-item {
-            font-size: 13px;
+            font-size: 14px;
+
+            &:nth-child(odd) {
+              color: #3ea6ff;
+              list-style: circle;
+              padding-bottom: 2px;
+            }
+            &:nth-child(even) {
+              color: #979797;
+              font-size: 13px;
+              padding-bottom: 4px;
+            }
+            &:nth-child(even)::before {
+              content: "‒ ";
+            }
           }
-          .work-item:nth-child(odd) {
-            color: #3ea6ff;
-            list-style: circle;
-            padding-bottom: 2px;
-          }
-          .work-item:nth-child(even) {
-            padding-bottom: 4px;
-            color: #979797;
-            font-size: 12px;
-          }
+
         }
       }
 
@@ -86,9 +96,9 @@
       .skills-container {
         min-height: 135px;
         .skills {
-          padding-left: 24px;
+          padding-left: 20px;
           .skill-item {
-            font-size: 12px;
+            font-size: 14px;
             color: #979797;
             list-style: circle;
             padding-bottom: 4px;

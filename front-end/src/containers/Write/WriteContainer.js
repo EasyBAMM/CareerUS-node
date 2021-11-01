@@ -16,6 +16,7 @@ const WriteContainer = () => {
   );
   // 언마운트될 때 초기화
   useEffect(() => {
+    document.getElementById("root").scrollTo(0, 0); // 페이지 이동 후 스크롤 탑
     return () => {
       dispatch(initialize());
     };

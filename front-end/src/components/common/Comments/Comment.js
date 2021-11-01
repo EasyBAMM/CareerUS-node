@@ -39,7 +39,7 @@ const Comment = ({
             <Link
               to={`/profile/view?username=${author.username}&userId=${author._id}`}
             >
-              {author.username}
+              {author.name}
             </Link>
           </div>
           <div className={cx("comment-text-box")}>
@@ -78,7 +78,7 @@ const Comment = ({
       </div>
       {(openReply || openEdit) && (
         <CommentWriteContainer
-          parentAuthor={author.username}
+          parentAuthor={author.name}
           parentComment={_id}
           originId={_id}
           originToComment={toComment}
