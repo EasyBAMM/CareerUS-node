@@ -24,7 +24,7 @@ export const register = async (ctx) => {
     passwordConfirm: Joi.string().required(),
     registerCode: Joi.string().required(),
     name: Joi.string()
-      .regex(/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-z]{1,}$/)
+      .regex(/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-z]{2,20}$/)
       .required(),
     comment: Joi.string()
       .regex(/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-z0-9|\s!@#$%^&*-=+]{2,40}$/)

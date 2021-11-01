@@ -76,6 +76,19 @@
         color: #000;
       }
 
+      .post-comments {
+        &::before {
+          content: "[";
+        }
+        &::after {
+          content: "]";
+        }
+        font-size: 13px;
+        margin-left: 4px;
+        color: #ff2f3b;
+        font-weight: bold;
+      }
+
       .post-mobile-content {
         display: none;
       }
@@ -131,6 +144,10 @@
           width: 80%;
           font-size: 15px;
           line-height: 23px;
+        }
+
+        .post-comments {
+          display: none;
         }
 
         .post-mobile-content {

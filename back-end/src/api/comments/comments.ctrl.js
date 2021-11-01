@@ -101,7 +101,7 @@ export const write = async (ctx) => {
       // 댓글 생성
       const saveComment = await Comment.create(inputComment);
       const comment = await Comment.find({ _id: saveComment._id })
-        .populate({ path: 'author', select: ['username', 'image'] })
+        .populate({ path: 'author', select: ['username', 'name', 'image'] })
         .lean()
         .exec();
       ctx.body = comment;
@@ -122,7 +122,7 @@ export const write = async (ctx) => {
       };
       const saveComment = await Comment.create(inputComment);
       const comment = await Comment.find({ _id: saveComment._id })
-        .populate({ path: 'author', select: ['username', 'image'] })
+        .populate({ path: 'author', select: ['username', 'name', 'image'] })
         .lean()
         .exec();
 
@@ -170,7 +170,7 @@ export const read = async (ctx) => {
       .sort({ groupno: orderBy, groupord: 1, createdAt: orderBy })
       .limit(limit)
       .skip(skip)
-      .populate({ path: 'author', select: ['username', 'image'] })
+      .populate({ path: 'author', select: ['username', 'name', 'image'] })
       .lean()
       .exec();
 

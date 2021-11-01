@@ -110,7 +110,8 @@ export const getProfileById = async (ctx, next) => {
     return;
   }
   try {
-    const selectFields = 'username name comment image';
+    const selectFields =
+      'username name userjob comment image email site works skills';
     const profile = await User.findById(id, selectFields).exec();
     // 프로필이 존재하지 않을 때
     if (!profile) {
@@ -154,8 +155,12 @@ export const update = async (ctx) => {
   const { id } = ctx.params;
 
   const schema = Joi.object().keys({
-    name: Joi.string(),
-    comment: Joi.string(),
+    name: Joi.string()
+      .regex(/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-z]{2,20}$/)
+      .required(),
+    comment: Joi.string()
+      .regex(/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-z0-9|\s!@#$%^&*-=+]{2,40}$/)
+      .required(),
     image: Joi.string(),
     userjob: Joi.string(),
     email: Joi.string(),
@@ -186,7 +191,7 @@ export const update = async (ctx) => {
       ctx.status = 404;
       return;
     }
-    ctx.body = profile;
+    ctx.body = { ok: true, msg: 'success' };
   } catch (e) {
     ctx.throw(500, e);
   }
