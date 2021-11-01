@@ -3,12 +3,7 @@ import qs from "qs";
 import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "react-router";
 import CommentWrite from "../../../components/common/Comments/CommentWrite";
-import {
-  changeField,
-  initialize,
-  updateComment,
-  writeComment,
-} from "../../../modules/comment";
+import { changeField, initialize, updateComment, writeComment } from "../../../modules/comment";
 import { listComments } from "../../../modules/comments";
 
 const CommentWriteContainer = ({
@@ -34,10 +29,7 @@ const CommentWriteContainer = ({
   };
 
   // 댓글 입력
-  const onChangeField = useCallback(
-    (payload) => dispatch(changeField(payload)),
-    [dispatch]
-  );
+  const onChangeField = useCallback((payload) => dispatch(changeField(payload)), [dispatch]);
   const onChangeText = useCallback(
     (e) => {
       if (e.target.value.length > 300) {
@@ -71,11 +63,7 @@ const CommentWriteContainer = ({
 
   // 댓글 등록
   const onPublish = () => {
-    const {
-      postId,
-      page = 1,
-      orderBy = "asc",
-    } = qs.parse(location.search, {
+    const { postId } = qs.parse(location.search, {
       ignoreQueryPrefix: true,
     });
     // 개행문자 제거
@@ -108,7 +96,7 @@ const CommentWriteContainer = ({
         })
       );
     }
-    // dispatch(listComments({ id: postId, page, orderBy }));
+
     setTextarea("");
     setActionActive(false);
   };

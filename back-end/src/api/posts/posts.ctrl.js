@@ -226,12 +226,42 @@ export const list = async (ctx) => {
   const query = createSearchQuery(ctx.query);
 
   try {
-    const posts = await Post.find(query)
-      .sort({ _id: -1 })
-      .limit(limit)
-      .skip(skip)
-      .lean()
-      .exec();
+    // 기존 게시글만 가져오는 코드
+    // const posts = await Post.find(query)
+    //   .sort({ _id: -1 })
+    //   .limit(limit)
+    //   .skip(skip)
+    //   .lean()
+    //   .exec();
+
+    // 게시글 + 댓글 수 집합해서 가져오기
+    const posts = await Post.aggregate([
+      { $match: query },
+      { $sort: { _id: -1 } },
+      { $limit: skip + limit },
+      { $skip: skip },
+      {
+        $lookup: {
+          from: 'comments',
+          let: { post_id: '$_id' },
+          pipeline: [
+            {
+              $match: {
+                isDeleted: { $eq: false },
+                $expr: { $eq: ['$post', '$$post_id'] },
+              },
+            },
+            { $project: { _id: 0 } },
+          ],
+          as: 'comments',
+        },
+      },
+      {
+        $addFields: {
+          comments: { $size: '$comments' },
+        },
+      },
+    ]).exec();
 
     const postCount = await Post.countDocuments(query).exec(); // 전체 게시물 수
     // 게시글, 현재 페이지, 한 번에 보여지는 수, 전체 게시글 수

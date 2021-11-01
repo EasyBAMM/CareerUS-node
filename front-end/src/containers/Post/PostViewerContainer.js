@@ -15,16 +15,14 @@ const PostViewerContainer = ({ location, history }) => {
   });
   // const { postId } = match.params;
   const dispatch = useDispatch();
-  const { post, error, loading, user, comments, loadingComments } = useSelector(
-    ({ post, loading, user, comments }) => ({
-      post: post.post,
-      error: post.error,
-      loading: loading["post/READ_POST"],
-      user: user.user,
-      comments: comments.comments,
-      loadingComments: loading["comments/LIST_COMMENTS"],
-    })
-  );
+  const { post, error, loading, user, comments, loadingComments } = useSelector(({ post, loading, user, comments }) => ({
+    post: post.post,
+    error: post.error,
+    loading: loading["post/READ_POST"],
+    user: user.user,
+    comments: comments.comments,
+    loadingComments: loading["comments/LIST_COMMENTS"],
+  }));
 
   useEffect(() => {
     dispatch(readPost(postId));
@@ -37,7 +35,7 @@ const PostViewerContainer = ({ location, history }) => {
   // 글 수정
   const onEdit = () => {
     dispatch(setOriginalPost(post));
-    history.push("/write");
+    history.push("/board/write");
   };
 
   // 글 삭제
@@ -59,9 +57,7 @@ const PostViewerContainer = ({ location, history }) => {
       post={post}
       loading={loading}
       error={error}
-      actionButtons={
-        ownPost && <PostActionButtons onEdit={onEdit} onRemove={onRemove} />
-      }
+      actionButtons={ownPost && <PostActionButtons onEdit={onEdit} onRemove={onRemove} />}
       comments={comments}
       loadingComments={loadingComments}
     />
