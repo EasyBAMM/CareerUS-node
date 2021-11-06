@@ -16,43 +16,20 @@ const sanitizeOption = {
 
 // function: 프로필 목록 검색
 const createSearchQuery = (queries) => {
-  // tag, username, search, keyword로 검색
-  const { tag, username, search, keyword } = queries;
+  // keyword로 검색
+  const { keyword } = queries;
   // tag, username 값이 유효하면 객체 안에 넣고, 그렇지 않으면 넣지 않음
-  const searchQuery = {
-    ...(username ? { 'user.username': username } : {}),
-    ...(tag ? { tags: tag } : {}),
-  };
+  const searchQuery = {};
   // 검색조건, 검색명으로 쿼리문 조건 설정
-  if (search && keyword && keyword.length >= 2) {
+  if (keyword && keyword.length >= 2) {
     const profileQueries = [];
-    if (search === 'all') {
-      // 전체
-      profileQueries.push({ username: { $regex: new RegExp(keyword, 'i') } });
-      profileQueries.push({ name: { $regex: new RegExp(keyword, 'i') } });
-      profileQueries.push({
-        userjob: { $regex: new RegExp(keyword, 'i') },
-      });
-      profileQueries.push({ userskill: { $regex: new RegExp(keyword, 'i') } });
-    }
-    if (search === 'username') {
-      // 유저아이디
-      profileQueries.push({ username: { $regex: new RegExp(keyword, 'i') } });
-    }
-    if (search === 'name') {
-      // 유저명
-      profileQueries.push({ name: { $regex: new RegExp(keyword, 'i') } });
-    }
-    if (search === 'userjob') {
-      // 유저직업
-      profileQueries.push({
-        'user.name': { $userjob: new RegExp(keyword, 'i') },
-      });
-    }
-    if (search === 'name') {
-      // 유저스킬
-      profileQueries.push({ name: { $regex: new RegExp(keyword, 'i') } });
-    }
+
+    // 전체
+    profileQueries.push({ name: { $regex: new RegExp(keyword, 'i') } });
+    profileQueries.push({ comment: { $regex: new RegExp(keyword, 'i') } });
+    profileQueries.push({ userjob: { $regex: new RegExp(keyword, 'i') } });
+    profileQueries.push({ skills: { $regex: new RegExp(keyword, 'i') } });
+    profileQueries.push({ works: { $regex: new RegExp(keyword, 'i') } });
 
     if (profileQueries.length > 0) {
       searchQuery['$or'] = profileQueries;
@@ -79,10 +56,8 @@ export const list = async (ctx) => {
 
   try {
     // 등록 코드, 암호는 제거
-    const profiles = await User.find(query, {
-      registerCode: 0,
-      hashedPassword: 0,
-    })
+    const selectFields = '_id username name userjob image comment views';
+    const profiles = await User.find(query, selectFields)
       .sort({ _id: -1 })
       .limit(limit)
       .skip(skip)
@@ -110,13 +85,35 @@ export const getProfileById = async (ctx, next) => {
     return;
   }
   try {
-    const selectFields =
-      'username name userjob comment image email site works skills';
-    const profile = await User.findById(id, selectFields).exec();
+    // registerCode: 0,
+    // hashedPassword: 0,
+    const profile = await User.findById(id, {
+      registerCode: 0,
+      hashedPassword: 0,
+    }).exec();
     // 프로필이 존재하지 않을 때
     if (!profile) {
       ctx.status = 404; // Not Found
       return;
+    }
+    // 조회수 +1
+    // 쿠키 "profile._id": "ip"
+    const checkViews = ctx.cookies.get(String(profile._id));
+    if (!checkViews) {
+      const addr =
+        ctx.headers['x-forwarded-for'] ||
+        ctx.connection.remoteAddress ||
+        ctx.socket.remoteAddress ||
+        ctx.connection.socket.remoteAddress ||
+        null;
+      if (addr) {
+        ctx.cookies.set(profile._id, addr, {
+          maxAge: 1000 * 60 * 10 * 1, // 10 분
+          httpOnly: true,
+        });
+        profile.views++; // 조회수 +1
+        await profile.save();
+      }
     }
 
     ctx.state.profile = profile;

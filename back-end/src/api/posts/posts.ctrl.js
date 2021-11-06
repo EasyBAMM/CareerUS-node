@@ -28,6 +28,7 @@ const sanitizeOption = {
     'blockquote',
     'a',
     'img',
+    'pre'
   ],
   allowedAttributes: {
     a: ['href', 'name', 'target'],
