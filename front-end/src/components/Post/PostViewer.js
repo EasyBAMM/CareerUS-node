@@ -15,6 +15,7 @@ const PostViewer = ({
   loadingComments,
 }) => {
   const category = "게시판";
+  const categoryLink = "board";
   // 에러 발생 시
   if (error) {
     if (error.response && error.response.status === 404) {
@@ -27,11 +28,11 @@ const PostViewer = ({
 
   // 로딩 중이거나 아직 포스트 데이터가 없을 때
   if (loading || !post) {
-    return <PostHead category={category}>로딩 중입니다...</PostHead>;
+    return <PostHead category={category} categoryLink={categoryLink}>로딩 중입니다...</PostHead>;
   }
   const { title, body, user, publishedDate, tags, views } = post;
   return (
-    <PostHead category={category} tags={tags}>
+    <PostHead category={category} categoryLink={categoryLink} tags={tags}>
       <div className={cx("post-info")}>
         <h1 className={cx("post-title")}>{title}</h1>
         <div className={cx("post-subinfo")}>
