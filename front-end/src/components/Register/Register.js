@@ -123,14 +123,14 @@ const Register = ({ form, onBlur, onChange, onSubmit, inputError, error }) => {
               <div className={cx("row-group")}>
                 {/* 이름 입력 */}
                 <div className={cx("join-row")}>
-                  <h3 className={cx("join-title")}>이름</h3>
+                  <h3 className={cx("join-title")}>닉네임</h3>
                   <div className={cx("input-wrap")}>
                     <span className={cx("input-box")}>
                       <input
                         type="text"
                         className={cx("int")}
                         name="name"
-                        placeholder="이름"
+                        placeholder="닉네임"
                         autoComplete="off"
                         onBlur={onBlur}
                         onChange={onChange}

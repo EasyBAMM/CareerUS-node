@@ -76,7 +76,7 @@ const LoginContainer = ({ history }) => {
   useEffect(() => {
     if (user) {
       console.log("로그인 성공");
-      history.push("/main"); // 메인 페이지로 이동
+      history.push("/board/lists"); // 메인 페이지로 이동
       try {
         localStorage.setItem("user", JSON.stringify(user));
       } catch (e) {

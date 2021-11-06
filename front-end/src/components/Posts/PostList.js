@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 const cx = classNames.bind(styles);
 
 const PostItem = ({ post, datePrint }) => {
-  // const { publishedDate, user, tags, title, body, _id } = post;
   const { seq, title, user, publishedDate, _id, views, comments } = post;
   return (
     <tr>
@@ -17,7 +16,7 @@ const PostItem = ({ post, datePrint }) => {
         <Link to={`/board/view?username=${user.username}&postId=${_id}`}>
           <div className={cx("post-title-string")}>
             {title}
-            {comments > 0 ? (<span className={cx("post-comments")}>{comments}</span>) : null}
+            {comments > 0 ? <span className={cx("post-comments")}>{comments}</span> : null}
           </div>
         </Link>
         <div className={cx("post-mobile-content")}>
@@ -31,7 +30,7 @@ const PostItem = ({ post, datePrint }) => {
         </div>
       </td>
       <td>
-        <Link to={`/board/lists/?username=${user.username}`}>{user.name}</Link>
+        <Link to={`/board/lists?username=${user.username}`}>{user.name}</Link>
       </td>
       <td>{datePrint(publishedDate)}</td>
       <td>{views}</td>
@@ -39,15 +38,9 @@ const PostItem = ({ post, datePrint }) => {
   );
 };
 
-const PostListBlock = ({
-  category,
-  children,
-  limit,
-  onChangeSelect,
-  showWriteButton,
-}) => {
+const PostListBlock = ({ category, categoryLink, children, limit, onChangeSelect, showWriteButton }) => {
   return (
-    <PostHead category={category}>
+    <PostHead category={category} categoryLink={categoryLink}>
       <div className={cx("post-list")}>
         <div className={cx("list-style")}>
           <select value={limit} onChange={onChangeSelect}>
@@ -87,23 +80,16 @@ const PostListBlock = ({
 const PostErrorItem = ({ children }) => {
   return (
     <tr>
-      <td colSpan="5">
-        <div className={cx("post-nodata")}>{children}</div>
+      <td colSpan="5" className={cx("post-nodata")}>
+        <div>{children}</div>
       </td>
     </tr>
   );
 };
 
-const PostList = ({
-  posts,
-  loading,
-  error,
-  showWriteButton,
-  limit,
-  onChangeSelect,
-  datePrint,
-}) => {
+const PostList = ({ posts, loading, error, showWriteButton, limit, onChangeSelect, datePrint }) => {
   const category = "게시판";
+  const categoryLink = "board";
   // 에러 발생 시
   if (error) {
     let errMsg = "에러가 발생했습니다.";
@@ -111,38 +97,23 @@ const PostList = ({
       errMsg = "등록된 게시글이 없습니다.";
     }
     return (
-      <PostListBlock
-        category={category}
-        limit={limit}
-        onChangeSelect={onChangeSelect}
-        showWriteButton={showWriteButton}
-      >
+      <PostListBlock category={category} categoryLink={categoryLink} limit={limit} onChangeSelect={onChangeSelect} showWriteButton={showWriteButton}>
         <PostErrorItem>{errMsg}</PostErrorItem>
       </PostListBlock>
     );
   }
   return (
-    <PostListBlock
-      category={category}
-      limit={limit}
-      onChangeSelect={onChangeSelect}
-      showWriteButton={showWriteButton}
-    >
+    <PostListBlock category={category} categoryLink={categoryLink} limit={limit} onChangeSelect={onChangeSelect} showWriteButton={showWriteButton}>
       {/* 로딩 중이 아니고, 포스트 배열이 존재할 때만 보여 줌 */}
       {!loading && posts && (
         <tbody>
           {posts.count > 0 ? (
-            posts.posts.map((post) => (
-              <PostItem post={post} key={post._id} datePrint={datePrint} />
-            ))
+            posts.posts.map((post) => <PostItem post={post} key={post._id} datePrint={datePrint} />)
           ) : (
-            <PostErrorItem>등록된 게시글이 없습니다.</PostErrorItem>
+            <PostErrorItem>검색 결과가 없습니다.</PostErrorItem>
           )}
         </tbody>
       )}
-      {/* <PostItem />
-      <PostItem />
-      <PostItem /> */}
     </PostListBlock>
   );
 };
