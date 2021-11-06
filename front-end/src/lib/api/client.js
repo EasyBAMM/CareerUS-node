@@ -4,7 +4,7 @@ const client = axios.create();
 
 /* 글로벌 설정
     // API 주소
-    client.defaults.baseURL = "https://external-api-server.com/"
+    client.defaults.baseURL = process.env.NODE_ENV === 'development' ? '/' : 'http://localhost:4000/';
 
     // 헤더 설정
     client.defaults.headers.common["Authorization"] = "Bearer a1b2c3d4";
