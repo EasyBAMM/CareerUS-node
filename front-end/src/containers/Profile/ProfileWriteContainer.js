@@ -100,7 +100,7 @@ const ProfileWriteContainer = ({ history }) => {
       alert("이름을 입력하세요.");
       return;
     }
-    if(comment.trim() === "") {
+    if (comment.trim() === "") {
       alert("소개글을 입력하세요.");
       return;
     }

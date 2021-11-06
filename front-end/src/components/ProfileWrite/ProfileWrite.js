@@ -32,7 +32,7 @@ const ProfileWrite = ({ profileData, onChangeInput, onChangeWorks, onChangeSkill
                 </td>
               </tr>
               <tr>
-                <td>이름</td>
+                <td>닉네임</td>
                 <td>
                   <input type="text" id="name" name="name" className={cx("input-name")} value={profileData.name} onChange={onChangeInput} required />
                 </td>

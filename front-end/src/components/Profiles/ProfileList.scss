@@ -1,0 +1,210 @@
+.profile-list {
+  margin: 15px 0;
+
+  .list-style {
+    text-align: center;
+    margin: 15px 0 10px;
+    .serach-wrap {
+      display: inline-block;
+      width: 50%;
+      padding: 0 8px 0 14px;
+      border: 1px solid #ddd;
+
+      .search {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+      .search-btn {
+        color: #9aa0a6;
+        font-size: 20px;
+        cursor: pointer;
+        &:hover {
+          color: #2d5b79;
+        }
+      }
+      .btn-active {
+        color: #2d5b79;
+      }
+      input {
+        display: inline-block;
+        outline: none;
+        padding: 2px 7px;
+        width: 100%;
+        height: 34px;
+        min-height: 0;
+        color: #666666;
+        border-radius: 0;
+        border: none;
+        background-color: #fff;
+        line-height: 34px;
+        vertical-align: middle;
+        box-shadow: none;
+        box-sizing: content-box;
+      }
+    }
+
+    .select-wrap {
+      float: right;
+
+      select {
+        outline: none;
+        width: 78px;
+        padding: 7px 2px;
+        border: 1px solid #f3f3f3;
+        border-radius: 0px;
+        font-size: 12px;
+        color: #333;
+      }
+    }
+  }
+
+  .list-content {
+    min-height: 255px;
+    border-top: 2px solid #2d5b79;
+    .list-infos {
+      width: 100%;
+      table-layout: fixed;
+      border-bottom: 1px solid #2d5b79;
+      border-collapse: collapse;
+      border-spacing: 0;
+      th {
+        height: 44px;
+        padding: 10px 0;
+        font-weight: bold;
+        border-bottom: 1px solid #2d5b79;
+        color: #333;
+      }
+
+      tr th:nth-child(1) {
+        width: 8%;
+      }
+      tr th:nth-child(2) {
+        width: auto;
+      }
+      tr th:nth-child(3) {
+        width: 10%;
+      }
+      tr th:nth-child(4) {
+        width: 8%;
+      }
+      tbody tr {
+        border-bottom: 1px solid #f1f1f1;
+      }
+      tbody tr:hover {
+        background-color: #f7f7f7;
+        transition-duration: 0.3s;
+      }
+      tr td {
+        padding: 10px 0;
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: center;
+        color: #666;
+      }
+      tr td:nth-child(2) {
+        text-align: left;
+        a {
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
+      }
+      .userimage-wrap {
+        width: 32px;
+        height: 32px;
+        border-radius: 70%;
+        overflow: hidden;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+      .profile-title-string {
+        width: 80%;
+        padding-left: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .profile-title-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: #262626;
+      }
+      .profile-title-comment {
+        font-size: 13px;
+        color: #8e8e8e;
+      }
+      tr td:nth-child(3) {
+        font-size: 13px;
+        color: #3ea6ff;
+      }
+
+      .profile-nodata {
+        padding: 100px 0;
+        text-align: center;
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .list-style {
+      display: flex;
+      justify-content: space-between;
+      .serach-wrap {
+        width: 70%;
+      }
+      .select-wrap {
+        float: none;
+        display: inline-block;
+        padding-left: 10px;
+      }
+    }
+
+    .list-content {
+      .list-infos {
+        border-bottom: none;
+        thead {
+          display: none;
+        }
+        tr {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+        tr td {
+          display: none;
+        }
+        tr td:nth-child(2) {
+          display: block;
+          padding: 8px 16px;
+        }
+        tr td:nth-child(3) {
+          display: block;
+          font-size: 11px;
+        }
+
+        .profile-title-name {
+          font-size: 14px;
+          font-weight: 600;
+          color: #262626;
+        }
+        .profile-title-comment {
+          font-size: 12px;
+          color: #8e8e8e;
+        }
+
+        .profile-nodata {
+          display: block;
+          width: 100%;
+        }
+      }
+    }
+  }
+}

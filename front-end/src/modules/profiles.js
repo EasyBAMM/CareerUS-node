@@ -11,10 +11,7 @@ const UNLOAD_LIST_PROFILES = "profiles/UNLOAD_LIST_PROFILES"; // 리스트 페�
 
 export const listProfiles = createAction(
   LIST_PROFILES,
-  ({ tag, username, search, keyword, page, limit }) => ({
-    tag,
-    username,
-    search,
+  ({ keyword, page, limit }) => ({
     keyword,
     page,
     limit,

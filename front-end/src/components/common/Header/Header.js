@@ -11,7 +11,7 @@ const Header = ({ user, onLogout, onActive, active }) => {
     <div className={cx("header-container")}>
       <header>
         <h1>
-          <Link to="/main">CareerUS</Link>
+          <Link to="/board/lists">CareerUS</Link>
         </h1>
         <h2 className="hide">대메뉴</h2>
         <nav className={cx("lnb", { active })}>
@@ -27,7 +27,7 @@ const Header = ({ user, onLogout, onActive, active }) => {
               </Link>
             </li>
             <li>
-              <Link to="/board/lists">
+              <Link to="/profile/lists">
                 <span>인맥찾기</span>
               </Link>
             </li>

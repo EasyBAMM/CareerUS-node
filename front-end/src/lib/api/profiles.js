@@ -2,17 +2,11 @@ import qs from "qs";
 import client from "./client";
 
 export const listProfiles = ({
-  tag,
-  username,
-  search,
   keyword,
   page,
   limit,
 }) => {
   const queryString = qs.stringify({
-    tag,
-    username,
-    search,
     keyword,
     page,
     limit,
