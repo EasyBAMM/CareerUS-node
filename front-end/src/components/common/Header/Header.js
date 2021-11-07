@@ -22,7 +22,13 @@ const Header = ({ user, onLogout, onActive, active }) => {
               </Link>
             </li>
             <li>
-              <Link to="/board/lists">
+              <Link
+                to="/board/lists"
+                onClick={(e) => {
+                  e.preventDefault();
+                  alert("서비스 준비중입니다.");
+                }}
+              >
                 <span>중고장터</span>
               </Link>
             </li>
