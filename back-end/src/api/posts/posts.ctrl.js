@@ -57,7 +57,7 @@ const sanitizeOption = {
       float: [/^left$/, /^right$/],
     },
   },
-  allowedSchemes: ['data', 'http'],
+  allowedSchemes: ['data', 'http', 'https'],
 };
 
 // 특정 포스트(id) - read, delete, update 미들웨어
