@@ -26,7 +26,7 @@ const Footer = () => {
           </ul>
           <div className={cx("frinfo")}>
             <Link
-              to={{ pathname: "https://github.com/zaehuun/CareerUS" }}
+              to={{ pathname: "https://github.com/EasyBAMM/CareerUS-node" }}
               target="_blank"
             >
               <AiFillGithub />
