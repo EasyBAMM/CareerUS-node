@@ -51,11 +51,6 @@ const sanitizeOption = {
       // Match any number with px, em, or %
       'font-size': [/^\d+(?:px|em|%)$/],
     },
-    img: {
-      display: [/^inline$/, /^block$/],
-      margin: [/^auto$/, /. /],
-      float: [/^left$/, /^right$/],
-    },
   },
   allowedSchemes: ['data', 'http', 'https'],
 };

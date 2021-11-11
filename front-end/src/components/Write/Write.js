@@ -64,6 +64,7 @@ const Write = ({ title, body, onChangeField }) => {
         },
         imageResize: {
           // See optional "config" below
+          modules: [ 'Resize', 'DisplaySize' ]
         },
       },
     });

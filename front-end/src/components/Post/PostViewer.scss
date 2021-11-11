@@ -37,11 +37,9 @@
 }
 .post-aritcle {
   min-height: 380px;
-  height: auto;
-  overflow: hidden;
-
+  white-space: pre;
   p {
-    height: 27px;
+    min-height: 27px;
   }
 
   ol {
